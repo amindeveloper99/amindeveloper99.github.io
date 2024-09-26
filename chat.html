@@ -118,13 +118,15 @@
     <script>
         const apiUrl = 'https://api.nyxs.pw/ai/gpt4?text=';
         const chatBox = document.getElementById('chat-box');
-        
+        let chatHistory = ""; // Menyimpan riwayat chat
+
         function sendMessage() {
             const userInput = document.getElementById('userInput');
             const message = userInput.value.trim();
             
             if (message) {
                 addMessage(message, 'user');
+                chatHistory += "Pengguna: " + message + "\n"; // Tambahkan pesan pengguna ke riwayat
                 fetchAIResponse(message);
                 userInput.value = '';
             }
@@ -140,10 +142,13 @@
 
         async function fetchAIResponse(message) {
             try {
-                const response = await fetch(apiUrl + encodeURIComponent(message));
+                // Gabungkan seluruh riwayat chat dengan pesan terbaru
+                const fullPrompt = chatHistory + "Pengguna: " + message;
+                const response = await fetch(apiUrl + encodeURIComponent(fullPrompt));
                 const data = await response.json();
                 if (data.status) {
                     addMessage(data.result, 'bot');
+                    chatHistory += "AI: " + data.result + "\n"; // Tambahkan balasan AI ke riwayat
                 } else {
                     addMessage('Sorry, there was an error.', 'bot');
                 }
@@ -152,5 +157,6 @@
             }
         }
     </script>
+
 </body>
 </html>
