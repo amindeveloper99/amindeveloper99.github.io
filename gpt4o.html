@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Response</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-transform: uppercase;
+            background: -webkit-linear-gradient(#ff512f, #dd2476);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+            color: #555;
+            text-align: left;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 2px solid transparent;
+            background-color: #f0f0f0;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: #ff7e5f;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #ff7e5f;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #feb47b;
+        }
+
+        textarea {
+            height: 150px;
+            resize: none;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s;
+        }
+
+        textarea:hover {
+            background-color: #f0f0f0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            input[type="text"], textarea, button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            input[type="text"], textarea, button {
+                padding: 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Form Pertanyaan</h2>
+    <form id="questionForm">
+        <label for="question">Masukkan Pertanyaan:</label>
+        <input type="text" id="question" name="question" placeholder="Tulis pertanyaan Anda di sini..." required>
+
+        <button type="button" onclick="generateResponse()">Generate</button>
+
+        <label for="response">Hasil:</label>
+        <textarea id="response" name="response" readonly></textarea>
+    </form>
+</div>
+
+<script>
+    // Cek domain, jika tidak berasal dari amindeveloper99.github.io, redirect ke domain tersebut
+    if (window.location.hostname !== 'amindeveloper99.github.io') {
+        window.location.href = 'https://amindeveloper99.github.io';
+    }
+
+    function generateResponse() {
+        const questionInput = document.getElementById("question").value;
+        const responseTextBox = document.getElementById("response");
+
+        if (questionInput.trim() === "") {
+            responseTextBox.value = "Silakan masukkan pertanyaan terlebih dahulu.";
+            return;
+        }
+
+        // Mengencode pertanyaan untuk URL
+        const encodedQuestion = encodeURIComponent(questionInput);
+
+        // URL API dengan pertanyaan yang dimasukkan
+        const apiUrl = `https://api.nyxs.pw/ai/gpt4o?text=${encodedQuestion}&system=jawab%20sebagai%20asisten%20yg%20supportif,%20dan%20juga%20kamu%20adalah%20pribadi%20yg%20menyenangkan`;
+
+        // Mengambil respons dari server
+        responseTextBox.value = "Memproses...";
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status) {
+                    responseTextBox.value = data.result;
+                } else {
+                    responseTextBox.value = "Gagal mendapatkan respon.";
+                }
+            })
+            .catch(error => {
+                responseTextBox.value = "Terjadi kesalahan: " + error;
+            });
+    }
+</script>
+
+</body>
+</html>
