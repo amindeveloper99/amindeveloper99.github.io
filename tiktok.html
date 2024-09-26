@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download TikTok</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #download-links {
+            margin-top: 20px;
+        }
+
+        #video-buttons {
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        // Redirect to specified domain if not on the correct one
+        if (window.location.hostname !== "amindeveloper99.github.io") {
+            window.location.href = "https://amindeveloper99.github.io";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Download TikTok Video</h1>
+        <form id="tiktok-form">
+            <input type="text" id="video-url" placeholder="Masukkan link video TikTok" required>
+            <button type="submit">Get Download Links</button>
+        </form>
+        
+        <div id="download-links" class="hidden">
+            <h2>Download Options:</h2>
+            <button id="download-music">Download Music</button>
+            <div id="video-buttons"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('tiktok-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const url = document.getElementById('video-url').value;
+            const apiUrl = `https://api.nyxs.pw/dl/tiktok?url=${encodeURIComponent(url)}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        document.getElementById('download-links').classList.remove('hidden');
+
+                        // Download Music
+                        document.getElementById('download-music').onclick = function () {
+                            window.open(data.result.music, '_blank');
+                        };
+
+                        // Create buttons for downloading videos
+                        const videoButtons = document.getElementById('video-buttons');
+                        videoButtons.innerHTML = ''; // Clear previous buttons
+                        const videoUrls = [data.result.video, data.result.videoHD, data.result.videoWatermark];
+                        videoUrls.forEach(videoUrl => {
+                            const button = document.createElement('button');
+                            button.innerText = 'Download Video';
+                            button.onclick = function () {
+                                window.open(videoUrl, '_blank');
+                            };
+                            videoButtons.appendChild(button);
+                        });
+                    } else {
+                        alert("Failed to retrieve video data.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching the TikTok video:', error);
+                    alert("An error occurred. Please try again.");
+                });
+        });
+    </script>
+</body>
+</html>
