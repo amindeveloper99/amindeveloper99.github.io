@@ -110,8 +110,8 @@
             <!-- Chat messages will appear here -->
         </div>
         <div class="input-box">
-            <input type="text" id="userInput" placeholder="Type a message">
-            <button onclick="sendMessage()">Send</button>
+            <input type="text" id="userInput" placeholder="Ketik pesan">
+            <button onclick="sendMessage()">Kirim</button>
         </div>
     </div>
 
@@ -120,6 +120,7 @@
         const chatBox = document.getElementById('chat-box');
         let chatHistory = ""; // Menyimpan riwayat chat
 
+        // Fungsi untuk mengirim pesan pengguna
         function sendMessage() {
             const userInput = document.getElementById('userInput');
             const message = userInput.value.trim();
@@ -132,28 +133,33 @@
             }
         }
 
+        // Fungsi untuk menambahkan pesan ke chat box
         function addMessage(text, sender) {
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message ' + sender;
             messageDiv.textContent = text;
             chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll ke bawah setiap kali ada pesan baru
         }
 
+        // Fungsi untuk mengambil respon AI
         async function fetchAIResponse(message) {
             try {
-                // Gabungkan seluruh riwayat chat dengan pesan terbaru
-                const fullPrompt = chatHistory + "Pengguna: " + message;
+                // Gabungkan seluruh riwayat chat dengan pesan terbaru dan tambahkan instruksi agar AI menjawab dalam bahasa Indonesia dengan gaya santai
+                const fullPrompt = chatHistory + "\nPengguna: " + message + 
+                                  "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku:";
+                
                 const response = await fetch(apiUrl + encodeURIComponent(fullPrompt));
                 const data = await response.json();
+
                 if (data.status) {
                     addMessage(data.result, 'bot');
                     chatHistory += "AI: " + data.result + "\n"; // Tambahkan balasan AI ke riwayat
                 } else {
-                    addMessage('Sorry, there was an error.', 'bot');
+                    addMessage('Maaf, ada kesalahan.', 'bot');
                 }
             } catch (error) {
-                addMessage('Sorry, I am having trouble responding.', 'bot');
+                addMessage('Maaf, saya mengalami kesulitan untuk merespons.', 'bot');
             }
         }
     </script>
