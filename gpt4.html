@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook Video Downloader</title>
+    <title>Generate GPT-4 Response</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -46,7 +46,7 @@
             text-align: left;
         }
 
-        input[type="url"] {
+        input[type="text"], textarea {
             width: 100%;
             padding: 15px;
             margin: 10px 0;
@@ -58,7 +58,7 @@
             font-size: 16px;
         }
 
-        input[type="url"]:focus {
+        input[type="text"]:focus, textarea:focus {
             border-color: #6a11cb;
             outline: none;
         }
@@ -80,13 +80,16 @@
             background-color: #2575fc;
         }
 
-        #downloadLinks {
-            margin-top: 20px;
+        textarea {
+            height: 150px;
+            resize: none;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s;
         }
 
-        #errorMessage {
-            color: red;
-            margin-top: 10px;
+        textarea:hover {
+            background-color: #f0f0f0;
         }
 
         @media (max-width: 768px) {
@@ -98,7 +101,7 @@
                 font-size: 24px;
             }
 
-            input[type="url"], button {
+            input[type="text"], textarea, button {
                 padding: 12px;
                 font-size: 14px;
             }
@@ -113,7 +116,7 @@
                 font-size: 20px;
             }
 
-            input[type="url"], button {
+            input[type="text"], textarea, button {
                 padding: 10px;
                 font-size: 12px;
             }
@@ -121,50 +124,55 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Facebook Video Downloader</h2>
-        <form id="fbForm">
-            <label for="fbLink">Enter Facebook Video URL:</label>
-            <input type="url" id="fbLink" placeholder="https://www.facebook.com/your_video_url" required>
-            <button type="submit">Download</button>
-        </form>
-        <div id="downloadLinks" class="hidden">
-            <h2>Download Links:</h2>
-            <div id="hdLink"></div>
-            <div id="sdLink"></div>
-        </div>
-        <div id="errorMessage" class="hidden"></div>
-    </div>
-    
-    <script>
-        // Check if the script is hosted on the correct domain
-        if (window.location.hostname !== 'amindeveloper99.github.io') {
-            window.location.href = 'https://amindeveloper99.github.io';
+
+<div class="container">
+    <h2>Form Pertanyaan GPT-4</h2>
+    <form id="questionForm">
+        <label for="question">Masukkan Pertanyaan:</label>
+        <!-- Placeholder, tidak ada nilai default -->
+        <input type="text" id="question" name="question" placeholder="Tulis pertanyaan di sini..." required>
+
+        <button type="button" onclick="generateResponse()">Generate</button>
+
+        <label for="response">Hasil:</label>
+        <textarea id="response" name="response" readonly></textarea>
+    </form>
+</div>
+
+<script>
+    // Cek domain, jika tidak berasal dari amindeveloper99.github.io, redirect ke domain tersebut
+    if (window.location.hostname !== 'amindeveloper99.github.io') {
+        window.location.href = 'https://amindeveloper99.github.io';
+    }
+
+    function generateResponse() {
+        const responseTextBox = document.getElementById("response");
+        const questionInput = document.getElementById("question").value;
+
+        if (!questionInput) {
+            alert("Harap masukkan pertanyaan.");
+            return;
         }
 
-        document.getElementById('fbForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const fbUrl = document.getElementById('fbLink').value;
-            const apiUrl = `https://api.nyxs.pw/dl/fb?url=${encodeURIComponent(fbUrl)}`;
+        const apiUrl = `https://api.nyxs.pw/ai/gpt4?text=${encodeURIComponent(questionInput)}`;
 
-            try {
-                const response = await fetch(apiUrl);
-                const data = await response.json();
+        // Mengambil respons dari server
+        responseTextBox.value = "Memproses...";
 
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
                 if (data.status) {
-                    document.getElementById('hdLink').innerHTML = `<a href="${data.result.hd}" target="_blank">HD Download</a>`;
-                    document.getElementById('sdLink').innerHTML = `<a href="${data.result.sd}" target="_blank">SD Download</a>`;
-                    document.getElementById('downloadLinks').classList.remove('hidden');
-                    document.getElementById('errorMessage').classList.add('hidden');
+                    responseTextBox.value = data.result;
                 } else {
-                    throw new Error('Error fetching the download link.');
+                    responseTextBox.value = "Gagal mendapatkan respon.";
                 }
-            } catch (error) {
-                document.getElementById('errorMessage').innerText = 'Failed to retrieve video. Please check the URL.';
-                document.getElementById('errorMessage').classList.remove('hidden');
-                document.getElementById('downloadLinks').classList.add('hidden');
-            }
-        });
-    </script>
+            })
+            .catch(error => {
+                responseTextBox.value = "Terjadi kesalahan: " + error;
+            });
+    }
+</script>
+
 </body>
 </html>
