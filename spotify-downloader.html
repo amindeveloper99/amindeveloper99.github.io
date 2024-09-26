@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Downloader</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-transform: uppercase;
+            background: -webkit-linear-gradient(#ff512f, #dd2476);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+            color: #555;
+            text-align: left;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 2px solid transparent;
+            background-color: #f0f0f0;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ff7e5f;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #ff7e5f;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #feb47b;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            input[type="text"], button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            input[type="text"], button {
+                padding: 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Spotify Downloader</h2>
+        <form id="download-form">
+            <label for="spotify-link">Enter Spotify Track Link:</label>
+            <input type="text" id="spotify-link" placeholder="e.g. https://open.spotify.com/track/4IMP7v2UPYtFqjWucd7Lfw" required>
+            <button type="submit">Get Download Link</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Cek domain, jika tidak berasal dari amindeveloper99.github.io, redirect ke domain tersebut
+        if (window.location.hostname !== 'amindeveloper99.github.io') {
+            window.location.href = 'https://amindeveloper99.github.io';
+        }
+
+        document.getElementById('download-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const link = document.getElementById('spotify-link').value;
+            fetch(`https://api.nyxs.pw/dl/spotify?url=${link}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayResult(data.result);
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        function displayResult(result) {
+            const resultContainer = document.getElementById('result');
+            resultContainer.innerHTML = ''; // Clear previous results
+
+            if (!result) {
+                resultContainer.innerHTML = '<p>No results found.</p>';
+                return;
+            }
+
+            const downloadButton = document.createElement('button');
+            downloadButton.innerText = 'Download ' + result.title;
+            downloadButton.onclick = function () {
+                window.location.href = result.url; // Redirect to the download link
+            };
+
+            const info = `
+                <h3>${result.title}</h3>
+                <p>Artist: ${result.artists}</p>
+                <p>Album: ${result.album}</p>
+                <p>Release Date: ${result.releaseDate}</p>
+                <img src="${result.thumbnail}" alt="${result.title}" width="100">
+            `;
+
+            resultContainer.innerHTML = info;
+            resultContainer.appendChild(downloadButton);
+        }
+    </script>
+</body>
+</html>
