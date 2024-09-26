@@ -150,7 +150,7 @@
 
             const timestamp = document.createElement('div');
             timestamp.className = 'timestamp';
-            timestamp.textContent = getCurrentTime(); // Menambahkan keterangan waktu
+            timestamp.textContent = getCurrentWITATime(); // Menambahkan keterangan waktu
 
             messageDiv.appendChild(timestamp);
             chatBox.appendChild(messageDiv);
@@ -178,11 +178,10 @@
             }
         }
 
-        // Fungsi untuk mendapatkan waktu saat ini dalam format GMT+8
-        function getCurrentTime() {
-            const now = new Date();
-            const gmtPlus8Time = new Date(now.getTime() + (8 * 60 * 60 * 1000)); // Tambahkan 8 jam
-            return gmtPlus8Time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        // Fungsi untuk mendapatkan waktu saat ini dalam zona waktu WITA (GMT+8)
+        function getCurrentWITATime() {
+            const options = { timeZone: 'Asia/Makassar', hour: '2-digit', minute: '2-digit' };
+            return new Date().toLocaleTimeString('id-ID', options);
         }
     </script>
 
