@@ -125,6 +125,11 @@
     </div>
 
     <script>
+        // Cek domain, jika tidak berasal dari amindeveloper99.github.io, redirect ke domain tersebut
+    if (window.location.hostname !== 'amindeveloper99.github.io') {
+        window.location.href = 'https://amindeveloper99.github.io';
+    }
+
         // Fungsi untuk membuka tab baru di latar belakang
         function openInBackground() {
             const link = document.createElement("a");
