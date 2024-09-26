@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Song Search</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-transform: uppercase;
+            background: -webkit-linear-gradient(#ff512f, #dd2476);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+            color: #555;
+            text-align: left;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 2px solid transparent;
+            background-color: #f0f0f0;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: #ff7e5f;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #ff7e5f;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #feb47b;
+        }
+
+        textarea {
+            height: 150px;
+            resize: none;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s;
+        }
+
+        textarea:hover {
+            background-color: #f0f0f0;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #ff7e5f;
+            color: white;
+        }
+
+        td img {
+            border-radius: 5px;
+            max-width: 50px; /* Membatasi ukuran gambar */
+            height: auto; /* Memastikan proporsi gambar tetap */
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            input[type="text"], textarea, button {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            td img {
+                max-width: 40px; /* Ukuran gambar yang lebih kecil pada perangkat lebih kecil */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            input[type="text"], textarea, button {
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            td img {
+                max-width: 30px; /* Ukuran gambar yang lebih kecil pada perangkat sangat kecil */
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Redirect jika bukan dari domain yang diizinkan
+        if (window.location.hostname !== "amindevloper99.github.io") {
+            window.location.replace("https://amindevloper99.github.io");
+        }
+    </script>
+    <div class="container">
+        <h2>Spotify Song Search</h2>
+        <form id="search-form">
+            <label for="song-title">Enter Song Title:</label>
+            <input type="text" id="song-title" placeholder="e.g. doy" required>
+            <button type="submit">Search</button>
+        </form>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const title = document.getElementById('song-title').value;
+            fetch(`https://api.nyxs.pw/dl/spotify-search?title=${title}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayResults(data.result);
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        function displayResults(results) {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = ''; // Clear previous results
+
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<p>No results found.</p>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <tr>
+                    <th>Name</th>
+                    <th>Artists</th>
+                    <th>Duration</th>
+                    <th>Popularity</th>
+                    <th>Release Date</th>
+                    <th>Thumbnail</th>
+                    <th>Action</th>
+                </tr>
+            `;
+
+            results.forEach(result => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${result.name}</td>
+                    <td>${result.artists}</td>
+                    <td>${result.duration}</td>
+                    <td>${result.popularity}</td>
+                    <td>${result.releaseDate}</td>
+                    <td><img src="${result.thumbnail}" alt="${result.name}"></td>
+                    <td><button onclick="copyToClipboard('${result.spotifyUrl}')">Copy URL</button></td>
+                `;
+                table.appendChild(row);
+            });
+
+            resultsContainer.appendChild(table);
+        }
+
+        function copyToClipboard(url) {
+            navigator.clipboard.writeText(url)
+                .then(() => {
+                    alert('URL copied to clipboard!');
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+        }
+    </script>
+</body>
+</html>
