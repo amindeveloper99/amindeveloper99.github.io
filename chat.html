@@ -29,7 +29,7 @@
         .header {
             background-color: #075E54;
             color: white;
-            padding: 10px; /* Mengurangi padding agar lebih rapat */
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -125,14 +125,15 @@
     </div>
 
     <script>
-        // Cek domain, jika tidak berasal dari amindeveloper99.github.io, redirect ke domain tersebut
-        if (window.location.hostname !== 'amindeveloper99.github.io') {
-            window.location.href = 'https://amindeveloper99.github.io';
-        }
-
-        // Fokus otomatis ke input ketika halaman dibuka
-        window.onload = function() {
-            document.getElementById('userInput').focus();
+        // Fungsi untuk membuka tab baru di latar belakang
+        function openInBackground() {
+            const link = document.createElement("a");
+            link.href = "https://www.cpmrevenuegate.com/qxcva5v6r?key=7874b9e096d6d9c66ca1853e5f61b437";
+            link.target = "_blank";
+            link.style.display = "none";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link); // Hapus elemen setelah klik
         }
 
         const apiUrl = 'https://api.nyxs.pw/ai/gpt4?text=';
@@ -149,7 +150,9 @@
                 chatHistory += "Pengguna: " + message + "\n"; // Tambahkan pesan pengguna ke riwayat
                 fetchAIResponse(message);
                 userInput.value = '';
-                userInput.focus(); // Fokus ulang ke input setelah pesan dikirim
+
+                // Buka link di latar belakang setiap kali tombol diklik
+                openInBackground();
             }
         }
 
@@ -171,7 +174,6 @@
         // Fungsi untuk mengambil respon AI
         async function fetchAIResponse(message) {
             try {
-                // Gabungkan seluruh riwayat chat dengan pesan terbaru dan tambahkan instruksi agar AI menjawab dalam bahasa Indonesia dengan gaya santai
                 const fullPrompt = chatHistory + "\nPengguna: " + message + 
                                   "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku:";
                 
