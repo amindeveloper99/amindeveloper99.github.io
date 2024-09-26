@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify Song Search</title>
+    <title>Spotify Search</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -111,8 +111,6 @@
 
         td img {
             border-radius: 5px;
-            max-width: 50px; /* Membatasi ukuran gambar */
-            height: auto; /* Memastikan proporsi gambar tetap */
         }
 
         @media (max-width: 768px) {
@@ -127,10 +125,6 @@
             input[type="text"], textarea, button {
                 padding: 12px;
                 font-size: 14px;
-            }
-
-            td img {
-                max-width: 40px; /* Ukuran gambar yang lebih kecil pada perangkat lebih kecil */
             }
         }
 
@@ -147,20 +141,10 @@
                 padding: 10px;
                 font-size: 12px;
             }
-
-            td img {
-                max-width: 30px; /* Ukuran gambar yang lebih kecil pada perangkat sangat kecil */
-            }
         }
     </style>
 </head>
 <body>
-    <script>
-        // Redirect jika bukan dari domain yang diizinkan
-        if (window.location.hostname !== "amindevloper99.github.io") {
-            window.location.replace("https://amindevloper99.github.io");
-        }
-    </script>
     <div class="container">
         <h2>Spotify Song Search</h2>
         <form id="search-form">
@@ -213,7 +197,7 @@
                     <td>${result.duration}</td>
                     <td>${result.popularity}</td>
                     <td>${result.releaseDate}</td>
-                    <td><img src="${result.thumbnail}" alt="${result.name}"></td>
+                    <td><img src="${result.thumbnail}" alt="${result.name}" width="50"></td>
                     <td><button onclick="copyToClipboard('${result.spotifyUrl}')">Copy URL</button></td>
                 `;
                 table.appendChild(row);
