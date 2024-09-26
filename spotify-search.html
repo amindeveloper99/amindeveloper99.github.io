@@ -156,6 +156,11 @@
     </div>
 
     <script>
+        
+    // Cek domain, jika tidak berasal dari amindeveloper99.github.io, redirect ke domain tersebut
+    if (window.location.hostname !== 'amindeveloper99.github.io') {
+        window.location.href = 'https://amindeveloper99.github.io';
+        }
         document.getElementById('search-form').addEventListener('submit', function (event) {
             event.preventDefault();
             const title = document.getElementById('song-title').value;
