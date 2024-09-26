@@ -129,7 +129,8 @@
     <h2>Form Pertanyaan GPT-4</h2>
     <form id="questionForm">
         <label for="question">Masukkan Pertanyaan:</label>
-        <input type="text" id="question" name="question" placeholder="Hari apa hari ini?" required value="Hari apa hari ini?">
+        <!-- Placeholder, tidak ada nilai default -->
+        <input type="text" id="question" name="question" placeholder="Tulis pertanyaan di sini..." required>
 
         <button type="button" onclick="generateResponse()">Generate</button>
 
@@ -146,7 +147,14 @@
 
     function generateResponse() {
         const responseTextBox = document.getElementById("response");
-        const apiUrl = `https://api.nyxs.pw/ai/gpt4?text=hari%20apa%20hari%20ini`;
+        const questionInput = document.getElementById("question").value;
+
+        if (!questionInput) {
+            alert("Harap masukkan pertanyaan.");
+            return;
+        }
+
+        const apiUrl = `https://api.nyxs.pw/ai/gpt4?text=${encodeURIComponent(questionInput)}`;
 
         // Mengambil respons dari server
         responseTextBox.value = "Memproses...";
