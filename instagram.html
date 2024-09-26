@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Downloader</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-transform: uppercase;
+            background: -webkit-linear-gradient(#ff512f, #dd2476);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+            color: #555;
+            text-align: left;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 2px solid transparent;
+            background-color: #f0f0f0;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: #ff7e5f;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #ff7e5f;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #feb47b;
+        }
+
+        #download-link {
+            display: none; /* Hide download link by default */
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            input[type="text"], button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            input[type="text"], button {
+                padding: 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+    <script>
+        // Redirect to specified domain if not on the correct one
+        if (window.location.hostname !== "amindeveloper99.github.io") {
+            window.location.href = "https://amindeveloper99.github.io";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Instagram Downloader</h2>
+        <form id="instagram-form">
+            <label for="post-url">Masukkan link postingan Instagram:</label>
+            <input type="text" id="post-url" placeholder="Masukkan link postingan Instagram" required>
+            <button type="submit">Get Download Link</button>
+        </form>
+        
+        <div id="download-link">
+            <h2>Download:</h2>
+            <button id="download-video">Download Video</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('instagram-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const url = document.getElementById('post-url').value;
+            const apiUrl = `https://api.nyxs.pw/dl/ig?url=${encodeURIComponent(url)}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "true") {
+                        const downloadLink = document.getElementById('download-link');
+                        downloadLink.style.display = 'block'; // Show download link
+                        
+                        const downloadButton = document.getElementById('download-video');
+                        downloadButton.onclick = function () {
+                            const videoUrl = data.result.url[0]; // Get the first video URL
+                            window.open(videoUrl, '_blank'); // Open the video URL in a new tab
+                        };
+                    } else {
+                        alert("Failed to retrieve video data.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching the Instagram post:', error);
+                    alert("An error occurred. Please try again.");
+                });
+        });
+    </script>
+</body>
+</html>
