@@ -103,6 +103,10 @@
             background-color: #f0f0f0;
         }
 
+        #download-links {
+            display: none; /* Hide download links by default */
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -149,9 +153,9 @@
             <button type="submit">Get Download Links</button>
         </form>
         
-        <div id="download-links" class="hidden">
+        <div id="download-links">
             <h2>Download Options:</h2>
-            <button id="download-music">Download Music</button>
+            <button id="download-music" style="display: none;">Download Music</button>
             <div id="video-buttons"></div>
         </div>
     </div>
@@ -166,10 +170,12 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "success") {
-                        document.getElementById('download-links').classList.remove('hidden');
+                        document.getElementById('download-links').style.display = 'block'; // Show download options
 
-                        // Download Music
-                        document.getElementById('download-music').onclick = function () {
+                        // Download Music button now visible
+                        const downloadMusicButton = document.getElementById('download-music');
+                        downloadMusicButton.style.display = 'block';
+                        downloadMusicButton.onclick = function () {
                             window.open(data.result.music, '_blank');
                         };
 
@@ -178,8 +184,7 @@
                         videoButtons.innerHTML = ''; // Clear previous buttons
                         const videoOptions = [
                             { url: data.result.video, label: "Video Tanpa Watermark" },
-                            { url: data.result.videoHD, label: "Video HD" },
-                            { url: data.result.videoWatermark, label: "Video dengan Watermark" }
+                            { url: data.result.videoHD, label: "Video HD" }
                         ];
                         videoOptions.forEach(option => {
                             const button = document.createElement('button');
