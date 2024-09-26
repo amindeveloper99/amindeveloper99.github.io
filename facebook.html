@@ -89,6 +89,10 @@
             margin-top: 10px;
         }
 
+        .hidden {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -130,8 +134,8 @@
         </form>
         <div id="downloadLinks" class="hidden">
             <h2>Download Links:</h2>
-            <div id="hdLink"></div>
-            <div id="sdLink"></div>
+            <button id="hdButton" class="hidden">HD Download</button>
+            <button id="sdButton" class="hidden">SD Download</button>
         </div>
         <div id="errorMessage" class="hidden"></div>
     </div>
@@ -152,8 +156,15 @@
                 const data = await response.json();
 
                 if (data.status) {
-                    document.getElementById('hdLink').innerHTML = `<a href="${data.result.hd}" target="_blank">HD Download</a>`;
-                    document.getElementById('sdLink').innerHTML = `<a href="${data.result.sd}" target="_blank">SD Download</a>`;
+                    // Update buttons with links
+                    document.getElementById('hdButton').innerHTML = 'HD Download';
+                    document.getElementById('hdButton').onclick = () => window.open(data.result.hd, '_blank');
+                    document.getElementById('hdButton').classList.remove('hidden');
+
+                    document.getElementById('sdButton').innerHTML = 'SD Download';
+                    document.getElementById('sdButton').onclick = () => window.open(data.result.sd, '_blank');
+                    document.getElementById('sdButton').classList.remove('hidden');
+
                     document.getElementById('downloadLinks').classList.remove('hidden');
                     document.getElementById('errorMessage').classList.add('hidden');
                 } else {
