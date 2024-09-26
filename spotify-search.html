@@ -46,7 +46,7 @@
             text-align: left;
         }
 
-        input[type="text"], textarea {
+        input[type="text"] {
             width: 100%;
             padding: 15px;
             margin: 10px 0;
@@ -58,7 +58,7 @@
             font-size: 16px;
         }
 
-        input[type="text"]:focus, textarea:focus {
+        input[type="text"]:focus {
             border-color: #ff7e5f;
             outline: none;
         }
@@ -80,37 +80,41 @@
             background-color: #feb47b;
         }
 
-        textarea {
-            height: 150px;
-            resize: none;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            transition: background-color 0.3s;
-        }
-
-        textarea:hover {
-            background-color: #f0f0f0;
-        }
-
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 10px;
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 15px 0;
+            padding: 15px;
             text-align: left;
-            border: 1px solid #ddd;
+            transition: transform 0.2s;
         }
 
-        th {
-            background-color: #ff7e5f;
-            color: white;
+        .card:hover {
+            transform: translateY(-2px);
         }
 
-        td img {
+        .card img {
             border-radius: 5px;
+            float: left;
+            margin-right: 10px;
+            width: 50px;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .card p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .card button {
+            margin-top: 10px;
+            width: auto;
         }
 
         @media (max-width: 768px) {
@@ -122,7 +126,7 @@
                 font-size: 24px;
             }
 
-            input[type="text"], textarea, button {
+            input[type="text"], button {
                 padding: 12px;
                 font-size: 14px;
             }
@@ -137,7 +141,7 @@
                 font-size: 20px;
             }
 
-            input[type="text"], textarea, button {
+            input[type="text"], button {
                 padding: 10px;
                 font-size: 12px;
             }
@@ -156,11 +160,11 @@
     </div>
 
     <script>
-        
-    // Cek domain, jika tidak berasal dari amindeveloper99.github.io, redirect ke domain tersebut
-    if (window.location.hostname !== 'amindeveloper99.github.io') {
-        window.location.href = 'https://amindeveloper99.github.io';
+        // Redirect if not from the specified domain
+        if (window.location.hostname !== 'amindeveloper99.github.io') {
+            window.location.href = 'https://amindeveloper99.github.io';
         }
+
         document.getElementById('search-form').addEventListener('submit', function (event) {
             event.preventDefault();
             const title = document.getElementById('song-title').value;
@@ -181,34 +185,20 @@
                 return;
             }
 
-            const table = document.createElement('table');
-            table.innerHTML = `
-                <tr>
-                    <th>Name</th>
-                    <th>Artists</th>
-                    <th>Duration</th>
-                    <th>Popularity</th>
-                    <th>Release Date</th>
-                    <th>Thumbnail</th>
-                    <th>Action</th>
-                </tr>
-            `;
-
             results.forEach(result => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${result.name}</td>
-                    <td>${result.artists}</td>
-                    <td>${result.duration}</td>
-                    <td>${result.popularity}</td>
-                    <td>${result.releaseDate}</td>
-                    <td><img src="${result.thumbnail}" alt="${result.name}" width="50"></td>
-                    <td><button onclick="copyToClipboard('${result.spotifyUrl}')">Copy URL</button></td>
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${result.thumbnail}" alt="${result.name}">
+                    <h3>${result.name}</h3>
+                    <p><strong>Artists:</strong> ${result.artists}</p>
+                    <p><strong>Duration:</strong> ${result.duration}</p>
+                    <p><strong>Popularity:</strong> ${result.popularity}</p>
+                    <p><strong>Release Date:</strong> ${result.releaseDate}</p>
+                    <button onclick="copyToClipboard('${result.spotifyUrl}')">Copy URL</button>
                 `;
-                table.appendChild(row);
+                resultsContainer.appendChild(card);
             });
-
-            resultsContainer.appendChild(table);
         }
 
         function copyToClipboard(url) {
