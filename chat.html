@@ -29,7 +29,7 @@
         .header {
             background-color: #075E54;
             color: white;
-            padding: 15px;
+            padding: 10px; /* Mengurangi padding agar lebih rapat */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -126,9 +126,15 @@
 
     <script>
         // Cek domain, jika tidak berasal dari amindeveloper99.github.io, redirect ke domain tersebut
-    if (window.location.hostname !== 'amindeveloper99.github.io') {
-        window.location.href = 'https://amindeveloper99.github.io';
-    }
+        if (window.location.hostname !== 'amindeveloper99.github.io') {
+            window.location.href = 'https://amindeveloper99.github.io';
+        }
+
+        // Fokus otomatis ke input ketika halaman dibuka
+        window.onload = function() {
+            document.getElementById('userInput').focus();
+        }
+
         const apiUrl = 'https://api.nyxs.pw/ai/gpt4?text=';
         const chatBox = document.getElementById('chat-box');
         let chatHistory = ""; // Menyimpan riwayat chat
@@ -143,6 +149,7 @@
                 chatHistory += "Pengguna: " + message + "\n"; // Tambahkan pesan pengguna ke riwayat
                 fetchAIResponse(message);
                 userInput.value = '';
+                userInput.focus(); // Fokus ulang ke input setelah pesan dikirim
             }
         }
 
