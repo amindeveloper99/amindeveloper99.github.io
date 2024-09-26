@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot WhatsApp Style</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ece5dd;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            width: 400px;
+            height: 600px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: #075E54;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .header .status {
+            font-size: 12px;
+            color: #9de1fe;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: scroll;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 70%;
+            word-wrap: break-word;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: #DCF8C6;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+            background-color: #ebebeb;
+        }
+
+        .input-box {
+            display: flex;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f0f0f0;
+        }
+
+        .input-box input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            margin-right: 10px;
+        }
+
+        .input-box button {
+            background-color: #075E54;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+        }
+
+        .input-box button:hover {
+            background-color: #128C7E;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="header">
+            <div>
+                <h3>Chat with AI</h3>
+                <span class="status">Online</span>
+            </div>
+        </div>
+        <div class="chat-box" id="chat-box">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="input-box">
+            <input type="text" id="userInput" placeholder="Type a message">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = 'https://api.nyxs.pw/ai/gpt4?text=';
+        const chatBox = document.getElementById('chat-box');
+        
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                fetchAIResponse(message);
+                userInput.value = '';
+            }
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + sender;
+            messageDiv.textContent = text;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function fetchAIResponse(message) {
+            try {
+                const response = await fetch(apiUrl + encodeURIComponent(message));
+                const data = await response.json();
+                if (data.status) {
+                    addMessage(data.result, 'bot');
+                } else {
+                    addMessage('Sorry, there was an error.', 'bot');
+                }
+            } catch (error) {
+                addMessage('Sorry, I am having trouble responding.', 'bot');
+            }
+        }
+    </script>
+</body>
+</html>
