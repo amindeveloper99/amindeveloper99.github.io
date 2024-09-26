@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Response</title>
+    <title>Download TikTok</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -80,6 +80,17 @@
             background-color: #feb47b;
         }
 
+        .video-option {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .video-button {
+            flex-grow: 1;
+            margin: 0 5px;
+        }
+
         textarea {
             height: 150px;
             resize: none;
@@ -122,60 +133,76 @@
             }
         }
     </style>
+    <script>
+        // Redirect to specified domain if not on the correct one
+        if (window.location.hostname !== "amindeveloper99.github.io") {
+            window.location.href = "https://amindeveloper99.github.io";
+        }
+    </script>
 </head>
 <body>
+    <div class="container">
+        <h2>Download TikTok Video</h2>
+        <form id="tiktok-form">
+            <label for="video-url">Masukkan link video TikTok:</label>
+            <input type="text" id="video-url" placeholder="Masukkan link video TikTok" required>
+            <button type="submit">Get Download Links</button>
+        </form>
+        
+        <div id="download-links" class="hidden">
+            <h2>Download Options:</h2>
+            <button id="download-music">Download Music</button>
+            <div id="video-buttons"></div>
+        </div>
+    </div>
 
-<div class="container">
-    <h2>Form Pertanyaan</h2>
-    <form id="questionForm">
-        <label for="question">Masukkan Pertanyaan:</label>
-        <input type="text" id="question" name="question" placeholder="Tulis pertanyaan Anda di sini..." required>
+    <script>
+        document.getElementById('tiktok-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const url = document.getElementById('video-url').value;
+            const apiUrl = `https://api.nyxs.pw/dl/tiktok?url=${encodeURIComponent(url)}`;
 
-        <button type="button" onclick="generateResponse()">Generate</button>
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        document.getElementById('download-links').classList.remove('hidden');
 
-        <label for="response">Hasil:</label>
-        <textarea id="response" name="response" readonly></textarea>
-    </form>
-</div>
+                        // Download Music
+                        document.getElementById('download-music').onclick = function () {
+                            window.open(data.result.music, '_blank');
+                        };
 
-<script>
-    // Cek domain, jika tidak berasal dari amindeveloper99.github.io, redirect ke domain tersebut
-    if (window.location.hostname !== 'amindeveloper99.github.io') {
-        window.location.href = 'https://amindeveloper99.github.io';
-    }
+                        // Create buttons for downloading videos
+                        const videoButtons = document.getElementById('video-buttons');
+                        videoButtons.innerHTML = ''; // Clear previous buttons
+                        const videoOptions = [
+                            { url: data.result.video, label: "Video Tanpa Watermark" },
+                            { url: data.result.videoHD, label: "Video HD" },
+                            { url: data.result.videoWatermark, label: "Video dengan Watermark" }
+                        ];
+                        videoOptions.forEach(option => {
+                            const button = document.createElement('button');
+                            button.className = 'video-button';
+                            button.innerText = option.label;
+                            button.onclick = function () {
+                                window.open(option.url, '_blank');
+                            };
 
-    function generateResponse() {
-        const questionInput = document.getElementById("question").value;
-        const responseTextBox = document.getElementById("response");
-
-        if (questionInput.trim() === "") {
-            responseTextBox.value = "Silakan masukkan pertanyaan terlebih dahulu.";
-            return;
-        }
-
-        // Mengencode pertanyaan untuk URL
-        const encodedQuestion = encodeURIComponent(questionInput);
-
-        // URL API dengan pertanyaan yang dimasukkan
-        const apiUrl = `https://api.nyxs.pw/ai/gpt4o?text=${encodedQuestion}&system=jawab%20sebagai%20asisten%20yg%20supportif,%20dan%20juga%20kamu%20adalah%20pribadi%20yg%20menyenangkan`;
-
-        // Mengambil respons dari server
-        responseTextBox.value = "Memproses...";
-
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status) {
-                    responseTextBox.value = data.result;
-                } else {
-                    responseTextBox.value = "Gagal mendapatkan respon.";
-                }
-            })
-            .catch(error => {
-                responseTextBox.value = "Terjadi kesalahan: " + error;
-            });
-    }
-</script>
-
+                            const container = document.createElement('div');
+                            container.className = 'video-option';
+                            container.appendChild(button);
+                            videoButtons.appendChild(container);
+                        });
+                    } else {
+                        alert("Failed to retrieve video data.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching the TikTok video:', error);
+                    alert("An error occurred. Please try again.");
+                });
+        });
+    </script>
 </body>
 </html>
