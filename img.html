@@ -109,12 +109,18 @@
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
-                    // Assuming the response body directly gives the image URL as a blob
+                    // Handle blob URL from the response body
                     let imageUrl = data.url || data;
+
+                    // If the response contains ".bin", remove it
+                    if (imageUrl.endsWith(".bin")) {
+                        imageUrl = imageUrl.replace(".bin", "");
+                    }
                     
-                    // Display the link to the image
+                    // Display the link to the blob image
                     statusElement.textContent = "Image generated successfully!";
                     imageLinkElement.href = imageUrl;
+                    imageLinkElement.textContent = "Click here to view the image";
                     imageLinkElement.style.display = 'inline';
                 })
                 .catch(error => {
