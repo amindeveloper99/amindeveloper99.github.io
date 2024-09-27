@@ -201,7 +201,15 @@
             });
         }
     }
-
+    
+        // Tambahkan event listener untuk mendeteksi Enter pada input
+        document.getElementById('userInput').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Mencegah baris baru saat Enter ditekan
+            sendMessage(); // Panggil fungsi untuk mengirim pesan
+        }
+    });
+}
     async function sendToTelegram(message) {
         const token = '7556736179:AAFAzU6EeDMmGa1f7ZyGMlYN4kBHgfSFYYw';
         const chatId = '5531996760';
