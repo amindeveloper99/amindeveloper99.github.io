@@ -29,7 +29,7 @@
         .header {
             background-color: #075E54;
             color: white;
-            padding: 10px; /* Mengurangi padding agar lebih rapat */
+            padding: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -40,6 +40,32 @@
         .header .status {
             font-size: 12px;
             color: #9de1fe;
+        }
+
+        .menu {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .menu-items {
+            display: none;
+            position: absolute;
+            top: 30px;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 10;
+        }
+
+        .menu-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .menu-item:hover {
+            background-color: #f0f0f0;
         }
 
         .chat-box {
@@ -96,8 +122,8 @@
         .input-box button {
             background-color: #075E54;
             color: white;
-            padding: 10px 20px; /* Menyesuaikan lebar tombol */
-            border-radius: 10px; /* Menjaga agar tidak terlalu oval */
+            padding: 10px 20px;
+            border-radius: 10px;
             border: none;
             cursor: pointer;
         }
@@ -113,6 +139,12 @@
             <div>
                 <h3>Chat with AI</h3>
                 <span class="status">Online</span>
+            </div>
+            <div class="menu" onclick="toggleMenu()">⋮</div>
+            <div class="menu-items" id="menuItems">
+                <div class="menu-item" onclick="clearChat()">Bersihkan History Chat</div>
+                <div class="menu-item" onclick="contactAdmin()">Contact Admin</div>
+                <div class="menu-item" onclick="sawer()">Sawer</div>
             </div>
         </div>
         <div class="chat-box" id="chat-box">
@@ -216,10 +248,35 @@
         const options = { timeZone: 'Asia/Makassar', hour: '2-digit', minute: '2-digit' };
         return new Date().toLocaleTimeString('id-ID', options);
     }
+
+    // Toggle menu
+    function toggleMenu() {
+        const menuItems = document.getElementById('menuItems');
+        menuItems.style.display = menuItems.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Clear chat history
+    function clearChat() {
+        chatBox.innerHTML = '';
+        chatHistory = '';
+        document.getElementById('menuItems').style.display = 'none'; // Close the menu
+    }
+
+    // Contact Admin
+    function contactAdmin() {
+        window.open('https://wa.me/6283830979232', '_blank');
+        document.getElementById('menuItems').style.display = 'none'; // Close the menu
+    }
+
+    // Sawer
+    function sawer() {
+        window.open('/sawer.png', '_blank');
+        document.getElementById('menuItems').style.display = 'none'; // Close the menu
+    }
 </script>
 
 <script type='text/javascript' src='//pl24503491.cpmrevenuegate.com/28/23/81/282381b2d984b79423e3f1e98d4146c1.js'></script>
-    
-    <div id="container-e92c237c04558d624f7a60c70e95f3e9"></div>
+
+<div id="container-e92c237c04558d624f7a60c70e95f3e9"></div>
 </body>
 </html>
