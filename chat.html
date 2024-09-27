@@ -268,7 +268,7 @@
     async function fetchAIResponse(message) {
         try {
             const fullPrompt = chatHistory + "\nPengguna: " + message + 
-                              "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku, dengan emotikon, balasan jadi ada kata (AI: ):";
+                              "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku, dengan emotikon, balasan jangan ada kata (AI: ):";
             const response = await fetch(apiUrl + encodeURIComponent(fullPrompt));
             const data = await response.json();
 
