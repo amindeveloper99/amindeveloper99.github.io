@@ -25,7 +25,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            position: relative; /* Added for menu positioning */
+            position: relative;
         }
 
         .header {
@@ -74,17 +74,17 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
             z-index: 10;
-            min-width: 150px; /* Set a minimum width */
-            padding: 5px 0; /* Add padding for items */
+            min-width: 150px;
+            padding: 5px 0;
         }
 
         .menu-item {
-            padding: 8px 15px; /* Adjusted padding */
+            padding: 8px 15px;
             cursor: pointer;
             white-space: nowrap;
             color: #075E54;
             font-weight: bold;
-            font-size: 14px; /* Slightly smaller font size */
+            font-size: 14px;
         }
 
         .menu-item:hover {
@@ -187,9 +187,8 @@
 
     const apiUrl = 'https://api.ryzendesu.vip/api/ai/chatgpt?text=';
     const chatBox = document.getElementById('chat-box');
-    let chatHistory = localStorage.getItem('chatHistory') || ""; // Get chat history from localStorage
+    let chatHistory = localStorage.getItem('chatHistory') || ""; 
 
-    // Load chat history on page load
     window.onload = function() {
         document.getElementById('userInput').focus();
         if (chatHistory) {
@@ -201,11 +200,19 @@
             });
         }
 
-        // Tambahkan event listener untuk mendeteksi Enter pada input
         document.getElementById('userInput').addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
-                event.preventDefault(); // Mencegah baris baru saat Enter ditekan
-                sendMessage(); // Panggil fungsi untuk mengirim pesan
+                event.preventDefault(); 
+                sendMessage(); 
+            }
+        });
+        
+        // Event listener to close the menu if clicking outside of it
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('menuItems');
+            const menuButton = document.querySelector('.menu');
+            if (menu.style.display === 'block' && !menu.contains(event.target) && !menuButton.contains(event.target)) {
+                menu.style.display = 'none';
             }
         });
     }
@@ -240,16 +247,15 @@
         
         if (message) {
             addMessage(message, 'user');
-            chatHistory += "Pengguna: " + message + "\n"; // Tambahkan pesan pengguna ke riwayat
-            localStorage.setItem('chatHistory', chatHistory); // Save to localStorage
-            sendToTelegram(message); // Kirim pesan ke Telegram
+            chatHistory += "Pengguna: " + message + "\n"; 
+            localStorage.setItem('chatHistory', chatHistory); 
+            sendToTelegram(message); 
             fetchAIResponse(message);
             userInput.value = '';
             userInput.focus();
         }
     }
 
-    // Fungsi untuk menambahkan pesan ke chat box
     function addMessage(text, sender) {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message ' + sender;
@@ -261,10 +267,9 @@
 
         messageDiv.appendChild(timestamp);
         chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight; // Scroll ke bawah setiap kali ada pesan baru
+        chatBox.scrollTop = chatBox.scrollHeight; 
     }
 
-    // Fungsi untuk mengambil respon AI
     async function fetchAIResponse(message) {
         try {
             const fullPrompt = chatHistory + "\nPengguna: " + message + 
@@ -274,18 +279,25 @@
 
             if (data.success) {
                 addMessage(data.response, 'bot');
-                chatHistory += "AI: " + data.response + "\n"; // Tambahkan balasan AI ke riwayat
-                localStorage.setItem('chatHistory', chatHistory); // Simpan ke localStorage
-                sendToTelegram(data.response); // Kirim balasan AI ke Telegram
+                chatHistory += "AI: " + data.response + "\n"; 
+                localStorage.setItem('chatHistory', chatHistory); 
+            } else {
+                addMessage("Maaf, AI gagal memberikan balasan.", 'bot');
             }
         } catch (error) {
-            console.error('Error fetching AI response:', error);
+            addMessage("Maaf, ada kesalahan saat berkomunikasi dengan AI.", 'bot');
         }
     }
 
     function getCurrentWITATime() {
         const now = new Date();
-        return now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        const options = {
+            timeZone: 'Asia/Makassar',
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+        };
+        return now.toLocaleTimeString('id-ID', options);
     }
 
     function toggleMenu() {
@@ -295,16 +307,18 @@
 
     function clearChat() {
         localStorage.removeItem('chatHistory');
-        chatHistory = "";
-        chatBox.innerHTML = ""; // Hapus semua pesan di chat box
+        chatBox.innerHTML = '';
+        document.getElementById('menuItems').style.display = 'none';
     }
 
     function contactAdmin() {
-        window.open('https://wa.me/+6283830979232', '_blank');
+        window.open('https://t.me/contactAdmin', '_blank');
+        document.getElementById('menuItems').style.display = 'none';
     }
 
     function sawer() {
-        window.open('sawer.jpeg', '_blank');
+        window.open('https://saweria.co/sawerAdmin', '_blank');
+        document.getElementById('menuItems').style.display = 'none';
     }
 </script>
 </body>
