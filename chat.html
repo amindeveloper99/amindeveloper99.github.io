@@ -185,7 +185,7 @@
         window.location.href = 'https://amindeveloper99.github.io';
     }
 
-    const apiUrl = 'https://api.nyxs.pw/ai/gpt4?text=';
+    const apiUrl = 'https://api.ryzendesu.vip/api/ai/chatgpt?text=';
     const chatBox = document.getElementById('chat-box');
     let chatHistory = localStorage.getItem('chatHistory') || ""; // Get chat history from localStorage
 
@@ -200,16 +200,16 @@
                 }
             });
         }
-    }
-    
+
         // Tambahkan event listener untuk mendeteksi Enter pada input
         document.getElementById('userInput').addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault(); // Mencegah baris baru saat Enter ditekan
-            sendMessage(); // Panggil fungsi untuk mengirim pesan
-        }
-    });
-}
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Mencegah baris baru saat Enter ditekan
+                sendMessage(); // Panggil fungsi untuk mengirim pesan
+            }
+        });
+    }
+
     async function sendToTelegram(message) {
         const token = '7556736179:AAFAzU6EeDMmGa1f7ZyGMlYN4kBHgfSFYYw';
         const chatId = '5531996760';
@@ -266,64 +266,46 @@
 
     // Fungsi untuk mengambil respon AI
     async function fetchAIResponse(message) {
-    try {
-        const fullPrompt = chatHistory + "\nPengguna: " + message + 
-                          "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku, dengan emotikon, dan jangan ada balasan dengan kata (AI: ):";
-        const response = await fetch('https://api.ryzendesu.vip/api/ai/chatgpt?text=' + encodeURIComponent(fullPrompt));
-        const data = await response.json();
+        try {
+            const fullPrompt = chatHistory + "\nPengguna: " + message + 
+                              "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku, dengan emotikon:";
+            const response = await fetch(apiUrl + encodeURIComponent(fullPrompt));
+            const data = await response.json();
 
-        if (data.success) {
-            addMessage(data.response, 'bot'); // Use the 'response' key from the API response
-            chatHistory += "AI: " + data.response + "\n"; // Add AI reply to the chat history
-            localStorage.setItem('chatHistory', chatHistory); // Save to localStorage
-        } else {
-            addMessage('Maaf, ada kesalahan.', 'bot');
+            if (data.success) {
+                addMessage(data.response, 'bot');
+                chatHistory += "AI: " + data.response + "\n"; // Tambahkan balasan AI ke riwayat
+                localStorage.setItem('chatHistory', chatHistory); // Simpan ke localStorage
+                sendToTelegram(data.response); // Kirim balasan AI ke Telegram
+            }
+        } catch (error) {
+            console.error('Error fetching AI response:', error);
         }
-    } catch (error) {
-        addMessage('Maaf, saya mengalami kesulitan untuk merespons.', 'bot');
     }
-}
 
-    // Fungsi untuk mendapatkan waktu saat ini dalam zona waktu WITA (GMT+8)
     function getCurrentWITATime() {
-        const options = { timeZone: 'Asia/Makassar', hour: '2-digit', minute: '2-digit' };
-        return new Date().toLocaleTimeString('id-ID', options);
+        const now = new Date();
+        return now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
     }
 
-    // Toggle menu visibility
     function toggleMenu() {
         const menuItems = document.getElementById('menuItems');
-        menuItems.style.display = menuItems.style.display === 'none' ? 'block' : 'none';
+        menuItems.style.display = menuItems.style.display === 'block' ? 'none' : 'block';
     }
 
-    // Clear chat history
     function clearChat() {
-        chatBox.innerHTML = '';
-        chatHistory = '';
-        localStorage.removeItem('chatHistory'); // Clear from localStorage
-        document.getElementById('menuItems').style.display = 'none'; // Close the menu
+        localStorage.removeItem('chatHistory');
+        chatHistory = "";
+        chatBox.innerHTML = ""; // Hapus semua pesan di chat box
     }
 
-    // Contact Admin
     function contactAdmin() {
-        window.open('https://wa.me/6283830979232', '_blank');
-        document.getElementById('menuItems').style.display = 'none'; // Close the menu
+        window.open('https://wa.me/+6283830979232', '_blank');
     }
 
-    // Sawer
     function sawer() {
-        window.open('/sawer.jpeg', '_blank');
-        document.getElementById('menuItems').style.display = 'none'; // Close the menu
+        alert('Instagram @kang_amin.dev\nSupport Me\nShopeepay: +6283830979232');
     }
-
-    // Close menu on outside click
-    document.addEventListener('click', (event) => {
-        const menuItems = document.getElementById('menuItems');
-        if (!event.target.matches('.menu') && !menuItems.contains(event.target)) {
-            menuItems.style.display = 'none';
-        }
-    });
 </script>
-
 </body>
 </html>
