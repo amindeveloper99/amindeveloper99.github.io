@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Request Image Display</title>
+    <style>
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], button {
+            padding: 15px;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        img {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            input[type="text"], button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            input[type="text"], button {
+                padding: 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Generate Image from API</h2>
+        <form id="imageForm">
+            <input type="text" id="prompt" placeholder="Enter prompt text" required>
+            <button type="submit">Submit</button>
+        </form>
+        <img id="resultImage" src="" alt="Generated Image" style="display:none;">
+    </div>
+
+    <script>
+        document.getElementById('imageForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let prompt = document.getElementById('prompt').value;
+            let apiUrl = `https://api.ryzendesu.vip/api/ai/flux-diffusion?prompt=${encodeURIComponent(prompt)}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    let imageUrl = data.url || data;
+                    let resultImage = document.getElementById('resultImage');
+                    resultImage.src = imageUrl;
+                    resultImage.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to load image');
+                });
+        });
+    </script>
+
+</body>
+</html>
