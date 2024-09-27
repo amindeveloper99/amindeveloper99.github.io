@@ -173,7 +173,7 @@
             try {
                 // Gabungkan seluruh riwayat chat dengan pesan terbaru dan tambahkan instruksi agar AI menjawab dalam bahasa Indonesia dengan gaya santai
                 const fullPrompt = chatHistory + "\nPengguna: " + message + 
-                                  "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku:";
+                                  "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku, dengan emotikon:";
                 
                 const response = await fetch(apiUrl + encodeURIComponent(fullPrompt));
                 const data = await response.json();
