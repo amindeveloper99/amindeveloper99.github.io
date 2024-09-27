@@ -260,7 +260,7 @@
     async function fetchAIResponse(message) {
     try {
         const fullPrompt = chatHistory + "\nPengguna: " + message + 
-                          "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku, dengan emotikon:";
+                          "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku, dengan emotikon, dan jangan ada balasan dengan kata (AI: ):";
         const response = await fetch('https://api.ryzendesu.vip/api/ai/chatgpt?text=' + encodeURIComponent(fullPrompt));
         const data = await response.json();
 
