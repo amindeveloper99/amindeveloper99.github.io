@@ -1,123 +1,166 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tools Amin Developer</title>
+    <title>Tool Links</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f06, #ffcc00);
             margin: 0;
             padding: 0;
-            background-color: #e9ecef; /* Warna latar belakang halaman */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         .container {
+            width: 90%;
             max-width: 1200px;
-            margin: auto;
+            background-color: #ffffff;
             padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .card {
-            background: #ffffff; /* Warna latar belakang card */
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin: 10px 0;
+        .section {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin-bottom: 10px;
+            background-color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 2.5rem; /* Base font size */
         }
 
         h2 {
-            margin: 0 0 10px;
-            color: #333; /* Warna judul */
+            text-align: center;
+            color: #333;
         }
 
-        p {
-            color: #666; /* Warna deskripsi */
-        }
-
-        input[type="text"], button {
-            padding: 12px;
-            font-size: 14px;
-        }
-
-        button {
-            background-color: #007BFF; /* Warna tombol */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3; /* Warna tombol saat hover */
+        /* Responsive font size for the h1 element */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem; /* Smaller font size for tablets */
+            }
         }
 
         @media (max-width: 480px) {
-            .container {
-                padding: 15px;
+            h1 {
+                font-size: 1.5rem; /* Smaller font size for mobile devices */
             }
+        }
 
-            h2 {
-                font-size: 20px;
-            }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
 
-            input[type="text"], button {
-                padding: 10px;
-                font-size: 12px;
+        .card {
+            background: linear-gradient(135deg, #f06, #ffcc00);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            color: #fff;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 18px;
+            transition: color 0.2s ease;
+        }
+
+        .card a:hover {
+            color: #333;
+        }
+
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <div class="card">
-            <h2>GPT 4</h2>
-            <p>GPT-4 adalah model bahasa alami berbasis kecerdasan buatan yang dikembangkan oleh OpenAI. Model ini merupakan versi terbaru dari Generative Pre-trained Transformer (GPT) yang memiliki kemampuan untuk menghasilkan teks yang mirip dengan teks manusia. GPT-4 memiliki kemampuan yang lebih baik dalam pemahaman konteks dan menghasilkan teks yang lebih realistis dan informatif.</p>
-            <a href="https://amindeveloper99.github.io/gpt4.html" target="_blank">
-                <button>Visit Link</button>
-            </a>
+        <h1>Tool Links</h1>
+
+        <!-- Downloader Section -->
+        <div class="section">
+            <h2>Downloader Tools</h2>
+            <div class="grid">
+                <div class="card">
+                    <a href="https://amindeveloper99.github.io/facebook.html">Facebook Downloader</a>
+                </div>
+                <div class="card">
+                    <a href="https://amindeveloper99.github.io/instagram.html">Instagram Downloader</a>
+                </div>
+                <div class="card">
+                    <a href="https://amindeveloper99.github.io/tiktok.html">Tiktok Downloader</a>
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <h2>GPT 4o</h2>
-            <p>GPT-4O adalah model bahasa canggih yang dirancang untuk memahami dan menghasilkan teks dengan lebih baik dibandingkan pendahulunya. Dengan kemampuan pemrosesan yang lebih tinggi, GPT-4O dapat menangkap konteks yang lebih kompleks, memberikan jawaban yang lebih akurat, dan berinteraksi dengan pengguna dengan cara yang lebih alami. 
-
-Bayangkan seperti memiliki teman yang super pintar dan selalu siap membantu! Apakah ada yang ingin kamu ketahui lebih lanjut tentang GPT-4O atau topik lainnya? Saya di sini untuk membantu! 😊</p>
-            <a href="https://amindeveloper99.github.io/gpt4o.html" target="_blank">
-                <button>Visit Link</button>
-            </a>
+        <!-- Chat & AI Section -->
+        <div class="section">
+            <h2>Chat & AI Tools</h2>
+            <div class="grid">
+                <div class="card">
+                    <a href="https://amindeveloper99.github.io/chat.html">Chat AI</a>
+                </div>
+                <div class="card">
+                    <a href="https://amindeveloper99.github.io/gpt4.html">Tanya GPT 4</a>
+                </div>
+                <div class="card">
+                    <a href="https://amindeveloper99.github.io/gpt4o.html">Tanya GPT O</a>
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <h2>Facebook Downloader</h2>
-            <p>Facebook Downloader adalah sebuah alat atau aplikasi yang memungkinkan pengguna untuk mengunduh konten dari platform Facebook, seperti foto, video, atau bahkan album. Dengan menggunakan Facebook Downloader, kamu bisa menyimpan momen-momen spesial yang kamu temukan di feed atau di halaman temanmu, sehingga bisa diakses kapan saja, bahkan tanpa koneksi internet!  Ini sangat berguna, terutama jika ada video lucu atau gambar favorit yang ingin kamu simpan. Namun, ingat ya, penting untuk menghormati privasi dan hak cipta! Pastikan untuk hanya mengunduh konten yang diperbolehkan atau yang kamu miliki izinnya. Semoga informasi ini membantu, dan selamat mencoba! Jika ada pertanyaan lain, jangan ragu untuk bertanya! 😊</p>
-            <a href="https://amindeveloper99.github.io/facebook.html" target="_blank">
-                <button>Visit Link</button>
-            </a>
+        <!-- Spotify Search Section -->
+        <div class="section">
+            <h2>Spotify Tools</h2>
+            <div class="grid">
+                <div class="card">
+                    <a href="https://amindeveloper99.github.io/spotify-search.html">Pencarian Lagu Spotify</a>
+                </div>
+                <div class="card">
+                    <a href="https://amindeveloper99.github.io/spotify-downloader.html">Spotify Downloader</a>
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <h2>Instagram Downloader</h2>
-            <p>Tentu! Instagram downloader adalah alat atau aplikasi yang memungkinkan pengguna untuk menyimpan konten dari Instagram, seperti foto, video, ke perangkat mereka. Dengan menggunakan Instagram downloader, kamu bisa menyimpan momen-momen spesial dari akun yang kamu suka, bahkan tanpa harus mengambil tangkapan layar yang mungkin kurang berkualitas. Yang menyenangkan, banyak downloader yang mudah digunakan dan dapat diakses baik di perangkat mobile maupun desktop! Namun, selalu ingat untuk menghormati hak cipta dan privasi pengguna lain saat mendownload konten. Selamat berburu konten menarik di Instagram! 😊✨</p>
-            <a href="https://amindeveloper99.github.io/instagram.html" target="_blank">
-                <button>Visit Link</button>
-            </a>
-        </div>
-
-        <div class="card">
-            <h2>Spotify Pencarian</h2>
-            <p>Spotify Search adalah alat yang luar biasa untuk menemukan musik, podcast, dan konten audio lainnya dengan mudah. Cukup ketik nama artis, lagu, album, atau genre yang ingin kamu temukan di kolom pencarian, dan Spotify akan memberikan rekomendasi yang sesuai dengan minatmu. Selain itu, kamu juga dapat menjelajahi playlist yang sudah dibuat oleh pengguna lain atau Spotify sendiri, sehingga pengalaman mendengarkan musikmu akan semakin beragam dan menyenangkan.</p>
-            <a href="https://amindeveloper99.github.io/spotify-search.html" target="_blank">
-                <button>Visit Link</button>
-            </a>
-        </div>
-        <div class="card">
-            <h2>Spotify Downloader</h2>
-            <p>Spotify Downloader adalah aplikasi atau alat yang memungkinkan pengguna untuk mengunduh musik dari Spotify untuk didengarkan secara offline. Meskipun Spotify sendiri menawarkan fitur unduhan bagi pengguna yang berlangganan, beberapa downloader pihak ketiga memberikan alternatif untuk menyimpan lagu-lagu favorit ke perangkat tanpa perlu koneksi internet.</p>
-            <a href="https://amindeveloper99.github.io/spotify-downloader.html" target="_blank">
-                <button>Visit Link</button>
-            </a>
+        <!-- Kontak -->
+        <div class="section">
+            <h2>Admin</h2>
+            <div class="grid">
+                <div class="card">
+                    <a href="https://wa.me/6283830979232">Kontak Admin</a>
+                </div>
+                <div class="card">
+                    <a href="https://instagram.com/kang_amin.dev">Instagram Admin</a>
+                </div>
+            </div>
         </div>
     </div>
+
 </body>
 </html>
