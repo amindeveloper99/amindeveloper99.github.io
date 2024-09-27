@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Request Image Display</title>
+    <title>API Request Image Link</title>
     <style>
         .container {
             width: 100%;
@@ -37,9 +37,16 @@
             background-color: #45a049;
         }
 
-        img {
-            max-width: 100%;
+        p#status {
+            font-size: 16px;
             margin-top: 20px;
+        }
+
+        a#imageLink {
+            font-size: 16px;
+            color: blue;
+            text-decoration: underline;
+            display: none;
         }
 
         @media (max-width: 768px) {
@@ -81,7 +88,8 @@
             <input type="text" id="prompt" placeholder="Enter prompt text" required>
             <button type="submit">Submit</button>
         </form>
-        <img id="resultImage" src="" alt="Generated Image" style="display:none;">
+        <p id="status"></p>
+        <a id="imageLink" href="" target="_blank">Click here to view the image</a>
     </div>
 
     <script>
@@ -91,17 +99,27 @@
             let prompt = document.getElementById('prompt').value;
             let apiUrl = `https://api.ryzendesu.vip/api/ai/flux-diffusion?prompt=${encodeURIComponent(prompt)}`;
 
+            let statusElement = document.getElementById('status');
+            let imageLinkElement = document.getElementById('imageLink');
+
+            // Show "Please wait..." message
+            statusElement.textContent = "Mohon tunggu...";
+            imageLinkElement.style.display = 'none';
+
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
+                    // Assuming the response body directly gives the image URL as a blob
                     let imageUrl = data.url || data;
-                    let resultImage = document.getElementById('resultImage');
-                    resultImage.src = imageUrl;
-                    resultImage.style.display = 'block';
+                    
+                    // Display the link to the image
+                    statusElement.textContent = "Image generated successfully!";
+                    imageLinkElement.href = imageUrl;
+                    imageLinkElement.style.display = 'inline';
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Failed to load image');
+                    statusElement.textContent = "Failed to load image";
                 });
         });
     </script>
