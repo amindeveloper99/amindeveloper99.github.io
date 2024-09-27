@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tool Links</title>
+    <title>Amin Developer</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -12,8 +12,8 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            align-items: flex-start; /* Changed to allow scrolling */
+            min-height: 100vh; /* Ensures body covers full height but allows growth */
         }
 
         .container {
@@ -23,6 +23,7 @@
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px; /* Ensure container has space at the bottom */
         }
 
         .section {
@@ -37,7 +38,7 @@
             background-color: #333;
             padding: 15px;
             border-radius: 10px;
-            font-size: 2.5rem; /* Base font size */
+            font-size: 2.5rem;
         }
 
         h2 {
@@ -45,16 +46,15 @@
             color: #333;
         }
 
-        /* Responsive font size for the h1 element */
         @media (max-width: 768px) {
             h1 {
-                font-size: 2rem; /* Smaller font size for tablets */
+                font-size: 2rem;
             }
         }
 
         @media (max-width: 480px) {
             h1 {
-                font-size: 1.5rem; /* Smaller font size for mobile devices */
+                font-size: 1.5rem;
             }
         }
 
@@ -121,7 +121,7 @@
 
         <!-- Chat & AI Section -->
         <div class="section">
-            <h2>Chat & AI Tools</h2>
+            <h2>AI</h2>
             <div class="grid">
                 <div class="card">
                     <a href="https://amindeveloper99.github.io/chat.html">Chat AI</a>
@@ -130,7 +130,7 @@
                     <a href="https://amindeveloper99.github.io/gpt4.html">Tanya GPT 4</a>
                 </div>
                 <div class="card">
-                    <a href="https://amindeveloper99.github.io/gpt4o.html">Tanya GPT O</a>
+                    <a href="https://amindeveloper99.github.io/gpt4o.html">Tanya GPT 4 o</a>
                 </div>
             </div>
         </div>
