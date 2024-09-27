@@ -29,12 +29,13 @@
         .header {
             background-color: #075E54;
             color: white;
-            padding: 10px;
+            padding: 5px; /* Reduced padding */
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
+            height: 40px; /* Set a fixed height */
         }
 
         .header .status {
@@ -45,6 +46,7 @@
         .menu {
             cursor: pointer;
             position: relative;
+            font-size: 24px; /* Increase size of the three dots */
         }
 
         .menu-items {
@@ -62,6 +64,8 @@
             padding: 10px 20px;
             cursor: pointer;
             white-space: nowrap;
+            color: #075E54; /* Green color */
+            font-weight: bold; /* Bold text */
         }
 
         .menu-item:hover {
@@ -255,6 +259,14 @@
         menuItems.style.display = menuItems.style.display === 'block' ? 'none' : 'block';
     }
 
+    // Close menu when clicking outside
+    window.onclick = function(event) {
+        const menuItems = document.getElementById('menuItems');
+        if (!event.target.matches('.menu') && menuItems.style.display === 'block') {
+            menuItems.style.display = 'none';
+        }
+    }
+
     // Clear chat history
     function clearChat() {
         chatBox.innerHTML = '';
@@ -276,7 +288,7 @@
 </script>
 
 <script type='text/javascript' src='//pl24503491.cpmrevenuegate.com/28/23/81/282381b2d984b79423e3f1e98d4146c1.js'></script>
-
-<div id="container-e92c237c04558d624f7a60c70e95f3e9"></div>
+    
+    <div id="container-e92c237c04558d624f7a60c70e95f3e9"></div>
 </body>
 </html>
