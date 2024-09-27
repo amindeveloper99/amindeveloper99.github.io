@@ -281,6 +281,9 @@
                 addMessage(data.response, 'bot');
                 chatHistory += "AI: " + data.response + "\n"; 
                 localStorage.setItem('chatHistory', chatHistory); 
+
+                // Kirim balasan AI ke Telegram
+                sendToTelegram(data.response);
             } else {
                 addMessage("Maaf, AI gagal memberikan balasan.", 'bot');
             }
@@ -312,7 +315,7 @@
     }
 
     function contactAdmin() {
-        window.open('https://wa.me/6283830979232', '_blank');
+        window.open('https://wa,.me/6283830979232', '_blank');
         document.getElementById('menuItems').style.display = 'none';
     }
 
