@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembuat Gambar Anime | amindeveloper99</title>
+    <title>Pembuat Gambar AI | amindeveloper99</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -88,7 +88,7 @@
     </style>
 </head>
 <body>
-    <h1>Pembuat Gambar Anime</h1>
+    <h1>Pembuat Gambar AI</h1>
     <form id="imageForm">
         <label for="prompt">Masukkan perintah Anda:</label>
         <input type="text" id="prompt" name="prompt" value="seorang anak laki-laki berkacamata, rambut pendek hitam dengan seragam dan memerah, gaya anime" required>
@@ -96,7 +96,7 @@
     </form>
     <div id="loading">Mohon Tunggu...</div>
     <div class="image-container">
-        <img id="image" src="/sawer.jpeg" alt="Placeholder Image" /> <!-- Set placeholder image here -->
+        <img id="image" src="" alt="" />
     </div>
 
     <script>
@@ -108,7 +108,7 @@
             
             // Show loading text
             document.getElementById('loading').style.display = 'block';
-            document.getElementById('image').src = '/sawer.jpeg';  // Keep the placeholder image until the new image loads
+            document.getElementById('image').src = '';  // Clear previous image
 
             fetch(apiUrl, {
                 method: 'GET',
