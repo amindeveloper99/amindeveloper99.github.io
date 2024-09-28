@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Video Fetcher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #ff0050;
+            color: #fff;
+            padding: 10px 15px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .result img {
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .download-buttons a {
+            display: inline-block;
+            background-color: #ff0050;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .stats-table td {
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .stats-table td strong {
+            color: #ff0050;
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>TikTok Downloader</h2>
+
+    <!-- Input form for TikTok URL -->
+    <div class="input-group">
+        <label for="tiktok-url">Enter TikTok Video URL:</label>
+        <input type="text" id="tiktok-url" placeholder="https://vt.tiktok.com/ZS2gAyWP6/">
+    </div>
+    <button class="btn" onclick="fetchTikTokData()">Download</button>
+
+    <!-- Result Display -->
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+    async function fetchTikTokData() {
+        const url = document.getElementById('tiktok-url').value;
+        const apiUrl = `https://api.agatz.xyz/api/tiktok?url=${encodeURIComponent(url)}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            
+            if (data.status === 200) {
+                displayResult(data.data);
+            } else {
+                document.getElementById('result').innerHTML = '<p>Failed to fetch data. Please check the URL and try again.</p>';
+            }
+        } catch (error) {
+            console.error('Error fetching TikTok data:', error);
+            document.getElementById('result').innerHTML = '<p>Error fetching data. Please try again later.</p>';
+        }
+    }
+
+    function displayResult(data) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+            <img src="${data.cover}" alt="Video Cover">
+            <h3>${data.title}</h3>
+            <p><strong>Duration:</strong> ${data.duration}</p>
+            <div class="download-buttons">
+                <a href="${data.data.find(d => d.type === 'watermark').url}" download>Download Video (Watermark)</a>
+                <a href="${data.data.find(d => d.type === 'nowatermark').url}" download>Download Video (No Watermark)</a>
+                <a href="${data.data.find(d => d.type === 'nowatermark_hd').url}" download>Download Video (HD No Watermark)</a>
+                <a href="${data.music_info.url}" download>Download Audio</a>
+            </div>
+            <table class="stats-table">
+                <tr>
+                    <td><strong>Views</strong>${data.stats.views}</td>
+                    <td><strong>Likes</strong>${data.stats.likes}</td>
+                    <td><strong>Comments</strong>${data.stats.comment}</td>
+                </tr>
+            </table>
+        `;
+    }
+</script>
+
+</body>
+</html>
