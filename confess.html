@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confess WhatsApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #e9ecef;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+        .title-box {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        h1 {
+            color: #25D366; /* Warna hijau WhatsApp */
+            margin: 0;
+            font-size: 28px; /* Ukuran judul */
+        }
+        .description {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            box-sizing: border-box; /* Memastikan padding tidak menambah lebar total */
+        }
+        textarea {
+            height: 120px; /* Ukuran tinggi textarea */
+            resize: none; /* Menghilangkan resize pada textarea */
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #25D366;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px; /* Memberikan jarak antara tombol */
+            font-size: 16px; /* Ukuran font tombol */
+        }
+        button:hover {
+            background-color: #128C7E;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ced4da;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #e9ecef;
+        }
+        /* Media Queries untuk responsivitas */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 24px; /* Ukuran lebih kecil pada layar kecil */
+            }
+            button {
+                font-size: 14px; /* Ukuran font tombol lebih kecil pada layar kecil */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title-box">
+            <h1>Confess WhatsApp</h1>
+        </div>
+        <div class="description">
+            Confess WhatsApp adalah bot yang memungkinkan pengguna untuk mengirim pesan rahasia secara anonim di WhatsApp.
+        </div>
+        <form id="whatsappForm">
+            <input type="text" id="nomor" placeholder="Nomor WhatsApp Teman Kamu" required>
+            <input type="text" id="nama" placeholder="Nama Samaran Kamu" required>
+            <textarea id="pesan" placeholder="Isi Pesan Kamu" required></textarea>
+            <button type="submit">Kirim Pesan</button>
+        </form>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Fungsi</th>
+                    <th>Cara Kerja</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mengirim pesan rahasia secara anonim</td>
+                    <td>Pengguna mengirimkan pesan melalui bot ini. Bot kemudian akan meneruskan pesan tersebut ke nomor yang telah ditentukan tanpa mengungkapkan identitas pengirim.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Tombol Hapus Koneksi dan Cek Status Koneksi -->
+        <button id="hapusKoneksi">Hapus Koneksi</button>
+        <button id="cekStatus">Cek Status Koneksi</button>
+    </div>
+
+    <script>
+        document.getElementById('whatsappForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let nomor = document.getElementById('nomor').value;
+            const nama = document.getElementById('nama').value;
+            const pesan = document.getElementById('pesan').value;
+            const nomorTujuan = '6285751918109'; // Nomor tujuan yang tetap
+
+            // Menghapus spasi, '-', dan '+' dari nomor
+            nomor = nomor.replace(/[\s\-\+]/g, '');
+
+            // Cek apakah nomor hanya berisi angka
+            if (!/^\d+$/.test(nomor)) {
+                alert('Nomor WhatsApp hanya boleh mengandung angka. Silakan periksa kembali.');
+                return;
+            }
+
+            // Mengubah nomor yang berawalan '08' menjadi '62'
+            if (nomor.startsWith('08')) {
+                nomor = '62' + nomor.substring(2);
+            }
+
+            // Cek apakah nama hanya berisi huruf
+            if (!/^[a-zA-Z\s]+$/.test(nama)) {
+                alert('Nama Samaran hanya boleh mengandung huruf. Silakan periksa kembali.');
+                return;
+            }
+
+            // Membuat link WhatsApp
+            const link = `https://wa.me/${nomorTujuan}?text=kirimpesan%20(${nomor})(${nama})(${pesan})`;
+            window.open(link, '_blank'); // Membuka link di tab baru
+        });
+
+        // Fungsi untuk mengirim pesan "Hapus koneksi"
+        document.getElementById('hapusKoneksi').addEventListener('click', function() {
+            const nomorTujuan = '6285751918109'; // Nomor tujuan yang tetap
+            const pesanHapus = 'Hapus koneksi';
+            const linkHapus = `https://wa.me/${nomorTujuan}?text=${encodeURIComponent(pesanHapus)}`;
+            window.open(linkHapus, '_blank'); // Membuka link di tab baru
+        });
+
+        // Fungsi untuk mengirim pesan "Status"
+        document.getElementById('cekStatus').addEventListener('click', function() {
+            const nomorTujuan = '6285751918109'; // Nomor tujuan yang tetap
+            const pesanStatus = 'Status';
+            const linkStatus = `https://wa.me/${nomorTujuan}?text=${encodeURIComponent(pesanStatus)}`;
+            window.open(linkStatus, '_blank'); // Membuka link di tab baru
+        });
+    </script>
+</body>
+</html>
