@@ -133,36 +133,42 @@
 
     <script>
         document.getElementById('whatsappForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            let nomor = document.getElementById('nomor').value;
-            const nama = document.getElementById('nama').value;
-            const pesan = document.getElementById('pesan').value;
-            const nomorTujuan = '6285751918109'; // Nomor tujuan yang tetap
+    event.preventDefault();
+    let nomor = document.getElementById('nomor').value;
+    const nama = document.getElementById('nama').value;
+    let pesan = document.getElementById('pesan').value;
+    const nomorTujuan = '6285751918109'; // Nomor tujuan yang tetap
 
-            // Menghapus spasi, '-', dan '+' dari nomor
-            nomor = nomor.replace(/[\s\-\+]/g, '');
+    // Menghapus spasi, '-', dan '+' dari nomor
+    nomor = nomor.replace(/[\s\-\+]/g, '');
 
-            // Cek apakah nomor hanya berisi angka
-            if (!/^\d+$/.test(nomor)) {
-                alert('Nomor WhatsApp hanya boleh mengandung angka. Silakan periksa kembali.');
-                return;
-            }
+    // Cek apakah nomor hanya berisi angka
+    if (!/^\d+$/.test(nomor)) {
+        alert('Nomor WhatsApp hanya boleh mengandung angka. Silakan periksa kembali.');
+        return;
+    }
 
-            // Mengubah nomor yang berawalan '08' menjadi '62'
-            if (nomor.startsWith('08')) {
-                nomor = '62' + nomor.substring(2);
-            }
+    // Mengubah nomor yang berawalan '08' menjadi '62'
+    if (nomor.startsWith('08')) {
+        nomor = '62' + nomor.substring(2);
+    }
 
-            // Cek apakah nama hanya berisi huruf
-            if (!/^[a-zA-Z\s]+$/.test(nama)) {
-                alert('Nama Samaran hanya boleh mengandung huruf. Silakan periksa kembali.');
-                return;
-            }
+    // Cek apakah nama hanya berisi huruf
+    if (!/^[a-zA-Z\s]+$/.test(nama)) {
+        alert('Nama Samaran hanya boleh mengandung huruf. Silakan periksa kembali.');
+        return;
+    }
 
-            // Membuat link WhatsApp
-            const link = `https://wa.me/${nomorTujuan}?text=kirimpesan%20(${nomor})(${nama})(${pesan})`;
-            window.open(link, '_blank'); // Membuka link di tab baru
-        });
+    // Cek apakah pesan mengandung karakter '(' atau ')'
+    if (/[()]/.test(pesan)) {
+        alert('Pesan tidak boleh mengandung karakter ( atau ). Silakan hapus karakter tersebut.');
+        return;
+    }
+
+    // Membuat link WhatsApp
+    const link = `https://wa.me/${nomorTujuan}?text=kirimpesan%20(${nomor})(${nama})(${pesan})`;
+    window.open(link, '_blank'); // Membuka link di tab baru
+});
 
         // Fungsi untuk mengirim pesan "Hapus koneksi"
         document.getElementById('hapusKoneksi').addEventListener('click', function() {
