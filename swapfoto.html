@@ -9,215 +9,154 @@
             font-family: 'Arial', sans-serif;
             background-color: #121212;
             color: #ffffff;
-            margin: 0;
+            text-align: center;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: background-color 0.3s, color 0.3s;
         }
-
         h1 {
             color: #ffeb3b;
-            margin-bottom: 20px;
-            text-shadow: 0 0 5px rgba(255, 235, 59, 0.8);
         }
-
-        form {
-            background: #1f1f1f;
-            padding: 20px;
+        .login-container, .swap-container {
+            background-color: #1e1e1e;
             border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 400px;
-            transition: background 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch; /* Rapi di mobile */
+            padding: 20px;
+            margin: 20px auto;
+            width: 300px;
         }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #ffffff;
-        }
-
-        input[type="text"] {
+        input[type="password"], input[type="text"] {
             width: 100%;
             padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #444;
-            border-radius: 4px;
-            background-color: #333;
-            color: #ffffff;
-            font-size: 16px;
-            transition: border-color 0.3s, background 0.3s;
-        }
-
-        input[type="text"]:focus {
-            border-color: #ffeb3b;
-            background-color: #444;
-            outline: none;
-        }
-
-        button {
-            background-color: #ff9800;
-            color: white;
+            margin: 10px 0;
             border: none;
             border-radius: 4px;
-            padding: 10px 15px;
-            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+        }
+        button {
+            background-color: #ffeb3b;
+            color: #121212;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
             width: 100%;
+            font-weight: bold;
         }
-
         button:hover {
-            background-color: #fb8c00;
+            background-color: #fbc02d;
         }
-
-        button:active {
-            transform: scale(0.95);
-        }
-
-        #result {
-            margin-top: 20px;
-            display: none;
-            text-align: center;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
+        .error {
+            color: red;
             margin-top: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
-
         .loading {
             display: none;
             margin-top: 20px;
-            font-size: 20px;
-            color: #ff9800;
-            font-weight: bold;
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-                color: #fb8c00;
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .light {
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #ffeb3b, #ff9800);
-            position: relative;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .light span {
-            display: block;
-            position: absolute;
-            height: 100%;
-            width: 10%;
-            background: rgba(255, 255, 255, 0.2);
-            animation: move 2s infinite linear;
-        }
-
-        @keyframes move {
-            0% {
-                left: -10%;
-            }
-            100% {
-                left: 100%;
-            }
-        }
-
-        .light span::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
-            animation: shine 2s infinite;
-        }
-
-        @keyframes shine {
-            0% {
-                left: -100%;
-            }
-            100% {
-                left: 100%;
-            }
-        }
-
-        /* Media Query untuk Responsif */
-        @media (max-width: 600px) {
-            form {
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            input[type="text"], button {
-                font-size: 14px;
-            }
-        }
-
-        /* Tautan */
-        .link {
             color: #ffeb3b;
-            text-decoration: none;
-            margin-top: 10px;
-            transition: color 0.3s;
-            text-align: left; /* Align left */
-            width: 100%;
-            display: inline-block; /* Make it block level for alignment */
-            margin-top: 15px; /* Menambahkan jarak atas */
+            font-weight: bold;
         }
-
-        .link:hover {
-            color: #fb8c00;
+        #result {
+            display: none;
+            margin-top: 20px;
+        }
+        #result img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .link {
+            display: block;
+            margin-top: 10px;
+            color: #ffeb3b;
         }
     </style>
 </head>
 <body>
-    <h1>Swap Foto</h1>
-    <form id="swapForm">
-        <label for="photo1">Link Foto Utama png/jpg:</label>
-        <input type="text" id="photo1" placeholder="Masukkan link foto utama" required>
-        
-        <label for="photo2">Foto muka orang lain png/jpg:</label>
-        <input type="text" id="photo2" placeholder="Masukkan link foto muka orang lain" required>
-        
-        <button type="submit">Swap Foto</button>
-        
-        <a href="https://uploader.nyxs.pw/" class="link" target="_blank">Ubah foto agar menjadi link? klik disini</a>
-    </form>
+    <div class="login-container" id="loginContainer">
+        <h1>Login Form</h1>
+        <input type="password" id="passwordInput" placeholder="Masukkan Sandi" />
+        <button onclick="checkPassword()">Login</button>
+        <button onclick="getPassword()">Dapatkan Sandi</button>
+        <div id="errorMessage" class="error"></div>
+    </div>
 
-    <div class="loading" id="loading">Loading, tunggu...</div>
-    <div class="light"><span></span></div>
+    <div class="swap-container" id="swapContainer" style="display: none;">
+        <h1>Swap Foto</h1>
+        <form id="swapForm">
+            <label for="photo1">Link Foto Utama png/jpg:</label>
+            <input type="text" id="photo1" placeholder="Masukkan link foto utama" required>
+            
+            <label for="photo2">Foto muka orang lain png/jpg:</label>
+            <input type="text" id="photo2" placeholder="Masukkan link foto muka orang lain" required>
+            
+            <button type="submit">Swap Foto</button>
+            
+            <a href="https://uploader.nyxs.pw/" class="link" target="_blank">Ubah foto agar menjadi link? klik disini</a>
+        </form>
 
-    <div id="result">
-        <h2>Hasil Swap Foto:</h2>
-        <img id="resultImage" src="" alt="Hasil Swap Foto">
+        <div class="loading" id="loading">Loading, tunggu...</div>
+
+        <div id="result">
+            <h2>Hasil Swap Foto:</h2>
+            <img id="resultImage" src="" alt="Hasil Swap Foto">
+        </div>
     </div>
 
     <script>
+        // Database sandi
+        const passwordDatabase = {
+            '01': 'HGJF-DASD-SFSD-FSDG',
+            '02': 'LKMN-PQRS-TUVW-XYZA',
+            '03': 'ZXCQ-WERT-YUIO-ASDF',
+            '04': 'GHJK-LMNB-VFRT-CXZV',
+            '05': 'QWERT-YUIO-PASD-FGHJ',
+            '06': 'PLMN-OKIJ-UHGF-REWS',
+            '07': 'QAZX-SWED-CVFR-TGBY',
+            '08': 'WERT-YUIK-HGFV-BNML',
+            '09': 'POIU-YTRE-WQAS-XCVB',
+            '10': 'ZQWE-RTYI-OPLK-JHGF',
+            '11': 'LKJI-OPMN-BVCX-ZASD',
+            '12': 'QWAS-DFGH-JKLO-PLMN',
+            '13': 'ZXCV-QWERT-YUIO-PASD',
+            '14': 'DFHG-KLJU-YTRE-BVCX',
+            '15': 'QWER-ASDF-GHJK-LMNB',
+            '16': 'POIU-YTRE-WQSD-XCVB',
+            '17': 'ABCD-EFGH-IJKL-MNOP',
+            '18': 'QWER-TYUI-OPAS-DFGH',
+            '19': 'LJKH-GFDX-CVBN-MZXC',
+            '20': 'QWAS-EDRF-TGBY-HJKL',
+            '21': 'PLMN-OKIJ-UHGF-VBNM',
+            '22': 'HJKL-POIU-YTRE-ASDF',
+            '23': 'QWXC-VBNM-ZXCV-LKJI',
+            '24': 'MNOP-QWER-TYUI-ASDF'
+        };
+
+        function getCurrentPassword() {
+            const now = new Date();
+            const gmtOffset = 8; // GMT+8
+            const currentHour = (now.getUTCHours() + gmtOffset) % 24;
+            return passwordDatabase[String(currentHour).padStart(2, '0')];
+        }
+
+        function checkPassword() {
+            const inputPassword = document.getElementById('passwordInput').value;
+            const currentPassword = getCurrentPassword();
+            const errorMessageElement = document.getElementById('errorMessage');
+
+            if (inputPassword === currentPassword) {
+                errorMessageElement.textContent = '';
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('swapContainer').style.display = 'block';
+            } else {
+                errorMessageElement.textContent = 'Sandi salah, silakan coba lagi.';
+            }
+        }
+
+        function getPassword() {
+            const phoneNumber = '6283830979232';
+            const message = 'sandiswapfoto';
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
         // Load values from local storage on page load
         window.onload = function() {
             const savedPhoto1 = localStorage.getItem('photo1');
