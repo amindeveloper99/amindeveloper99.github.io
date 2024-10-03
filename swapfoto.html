@@ -31,6 +31,13 @@
             background-color: #333;
             color: #fff;
         }
+        label {
+    display: block; /* Mengubah tampilan menjadi block agar label berada di atas input */
+    text-align: left; /* Menyelaraskan teks label ke kiri */
+    margin-bottom: 5px; /* Memberikan jarak antara label dan input */
+    /* font-weight: bold; */ /* Hapus atau komentar baris ini untuk menghilangkan gaya tebal */
+}
+
         button {
             background-color: #ffeb3b;
             color: #121212;
@@ -82,7 +89,7 @@
         <h1>Swap Foto</h1>
         <form id="swapForm">
             <label for="photo1">Link Foto Wajah Kamu png/jpg:</label>
-            <input type="text" id="photo1" placeholder="Masukkan disini..." required>
+            <input type="text" id="photo1" placeholder="Masukkan disini..." required><p></p><p></p>
             
             <label for="photo2">Link Foto Wajah Orang Lain png/jpg:</label>
             <input type="text" id="photo2" placeholder="Masukkan disini..." required>
