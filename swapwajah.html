@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swap Foto</title>
+    <style>
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #ffeb3b;
+        }
+        .login-container, .swap-container {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 300px;
+        }
+        input[type="password"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            background-color: #333;
+            color: #fff;
+        }
+        label {
+    display: block; /* Mengubah tampilan menjadi block agar label berada di atas input */
+    text-align: left; /* Menyelaraskan teks label ke kiri */
+    margin-bottom: 5px; /* Memberikan jarak antara label dan input */
+    /* font-weight: bold; */ /* Hapus atau komentar baris ini untuk menghilangkan gaya tebal */
+}
+
+        button {
+            background-color: #ffeb3b;
+            color: #121212;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #fbc02d;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .loading {
+            display: none;
+            margin-top: 20px;
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+        #result {
+            display: none;
+            margin-top: 20px;
+        }
+        #result img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .link {
+            display: block;
+            margin-top: 10px;
+            color: #ffeb3b;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <h1>Masukan Sandi</h1>
+        <input type="password" id="passwordInput" placeholder="Masukkan Sandi Disini..." />
+        <button onclick="checkPassword()">Masuk</button><p></p>
+        <button onclick="getPassword()">Dapatkan Sandi Gratis</button>
+        <div id="errorMessage" class="error"></div>
+    </div>
+
+    <div class="swap-container" id="swapContainer" style="display: none;">
+        <h1>Swap Foto</h1>
+        <form id="swapForm">
+        <label for="photo1">Pilih Foto Sample:</label>
+        <select id="photo1" required>
+            <option value="" disabled selected>Pilih disini...</option>
+            <!-- Perempuan Berjilbab -->
+    <option value="https://img3.teletype.in/files/af/1d/af1d115c-a8bd-4c1f-9279-028cac1e63f7.jpeg">Perempuan Berjilbab 1</option>
+    <option value="https://img3.teletype.in/files/25/d9/25d9e7cd-b00c-4870-a4dd-e53412353183.jpeg">Perempuan Berjilbab 2</option>
+    <option value="https://img2.teletype.in/files/5e/23/5e2306ae-0948-449c-9103-465116b45108.jpeg">Perempuan Berjilbab 3</option>
+    <option value="https://img4.teletype.in/files/bd/0a/bd0a2ff4-a558-40f9-8110-3889c9c2a2e9.jpeg">Perempuan Berjilbab 4</option>
+    <option value="https://img4.teletype.in/files/7c/4c/7c4c0ae7-23c2-4c22-ae23-043925c104e6.jpeg">Perempuan Berjilbab 5</option>
+    <option value="https://img2.teletype.in/files/d2/bf/d2bf8722-4e32-420a-ade9-d8755299735c.jpeg">Perempuan Berjilbab 6</option>
+    <option value="https://img1.teletype.in/files/86/92/86929eab-7e76-42b9-bdcf-49b2beb56a5c.jpeg">Perempuan Berjilbab 7</option>
+    <option value="https://img2.teletype.in/files/1c/a6/1ca6c4bb-e403-4f20-b72d-14d2324e09b5.jpeg">Perempuan Berjilbab 8</option>
+    <option value="https://img3.teletype.in/files/62/86/6286fa35-5cde-4b40-abe4-ce42ae91fe9b.jpeg">Perempuan Berjilbab 9</option>
+    <option value="https://img3.teletype.in/files/67/9f/679f0af1-b5b1-47f6-b412-d8e9e1112939.jpeg">Perempuan Berjilbab 10</option>
+    <option value="https://img3.teletype.in/files/22/fc/22fc5c85-922c-4d10-9c50-f950a143bc73.jpeg">Perempuan Berjilbab 11</option>
+    <option value="https://img3.teletype.in/files/6d/8d/6d8ddf3a-081b-4c30-9dc3-8b3869ceb9c1.jpeg">Perempuan Berjilbab 12</option>
+    <option value="https://img3.teletype.in/files/6d/8d/6d8ddf3a-081b-4c30-9dc3-8b3869ceb9c1.jpeg">Perempuan Berjilbab 13</option>
+    
+    <option value="https://img3.teletype.in/files/e2/fa/e2fa08fa-11c0-48f9-8aee-dbe410001865.jpeg">Remaja Pria 1</option>
+<option value="https://img1.teletype.in/files/4e/08/4e083c8f-cc93-46d5-a8e1-644b8b0450b6.jpeg">Remaja Pria 2</option>
+<option value="https://img2.teletype.in/files/d4/f0/d4f0d6e1-648b-4615-bc89-0109f81386f0.jpeg">Remaja Pria 3</option>
+<option value="https://img4.teletype.in/files/f9/18/f918184b-129b-470c-a30d-2e2fba4635be.jpeg">Remaja Pria 4</option>
+<option value="https://img4.teletype.in/files/ff/55/ff55f2c8-1392-45c7-ba5f-66a66bb917b3.jpeg">Remaja Pria 5</option>
+<option value="https://img4.teletype.in/files/30/a5/30a5a155-9ddc-44bb-9241-48aee3c90e99.jpeg">Remaja Pria 6</option>
+<option value="https://img1.teletype.in/files/8d/7a/8d7a686f-4f58-4592-b3e1-ca5df26395c0.jpeg">Remaja Pria 7</option>
+<option value="https://img4.teletype.in/files/bd/59/bd59078b-32f1-45e5-b341-13283eeb8327.jpeg">Remaja Pria 8</option>
+<option value="https://img2.teletype.in/files/50/84/508425df-e75f-452b-b2dc-fac52d57bcdf.jpeg">Remaja Pria 9</option>
+<option value="https://img4.teletype.in/files/7d/f4/7df4e644-2f56-4aed-bc4e-27193728b893.jpeg">Remaja Pria 10</option>
+<option value="https://img2.teletype.in/files/57/51/57517e0e-79e3-423d-8763-2f60566200be.jpeg">Remaja Pria 11</option>
+<option value="https://img2.teletype.in/files/9d/96/9d962b63-df6b-463d-8756-93cad759ef02.jpeg">Remaja Pria 12</option>
+<option value="https://img2.teletype.in/files/9f/6d/9f6d4588-b0c2-4611-855d-f032db881a3d.jpeg">Remaja Pria 13</option>
+<option value="https://img1.teletype.in/files/87/b4/87b4bff4-193a-4b4e-bc41-a6c93f414879.jpeg">Remaja Pria 14</option>
+<option value="https://img1.teletype.in/files/86/bc/86bc154d-7f34-42ef-9764-a1a242f9dee8.jpeg">Remaja Pria 15</option>
+<option value="https://img2.teletype.in/files/1e/77/1e77e74c-8812-4691-a6cf-6d55a1b933ef.jpeg">Remaja Pria 16</option>
+<option value="https://img1.teletype.in/files/8a/bb/8abb3a69-c553-4609-ae7b-8219b4e955f1.jpeg">Remaja Pria 17</option>
+<option value="https://img4.teletype.in/files/3f/17/3f17254f-5d03-4448-a450-fb052b1e9193.jpeg">Abdi Negara 1</option>
+<option value="https://img2.teletype.in/files/52/a3/52a3622c-7d3c-48a7-91c5-28db67873de4.jpeg">Abdi Negara 2</option>
+<option value="https://img3.teletype.in/files/63/c9/63c99f96-c31f-4c7e-aeda-30b864e1f5ad.jpeg">Abdi Negara 3</option>
+<option value="https://img4.teletype.in/files/b5/ab/b5aba09e-3a18-4cbc-b8a0-9ff22011b824.jpeg">Abdi Negara 4</option>
+<option value="https://img4.teletype.in/files/fe/48/fe48123d-29b3-4504-b181-43c40db389b7.jpeg">Abdi Negara 5</option>
+<option value="https://img2.teletype.in/files/56/08/5608c225-c9ee-442f-8137-aba3389ee0c4.jpeg">Abdi Negara 6</option>
+<option value="https://img4.teletype.in/files/f4/9e/f49e4194-85c0-4a0c-9bd0-f13781dc6e1f.jpeg">Abdi Negara 7</option>
+<option value="https://img2.teletype.in/files/da/44/da44c657-1f1c-4773-a64e-6110c4fe3db6.jpeg">Abdi Negara 8</option>
+<option value="https://img4.teletype.in/files/f6/3d/f63d4f7a-cd89-4b2d-89d2-984a90d8ae00.jpeg">Abdi Negara 9</option>
+<option value="https://img3.teletype.in/files/2f/a5/2fa59e3b-ce9a-468c-81b2-634275375dee.jpeg">Abdi Negara 10</option>
+<option value="https://img1.teletype.in/files/c0/6e/c06ec32a-f792-42ac-8a06-a085661f616b.jpeg">Abdi Negara 11</option>
+<option value="https://img2.teletype.in/files/11/9c/119cb6ca-a454-4c78-b2d9-fd994c12d0df.jpeg">Abdi Negara 12</option>
+<option value="https://img3.teletype.in/files/eb/13/eb135f21-6bc4-4990-902a-c0e6fb308dcd.jpeg">Abdi Negara 13</option>
+<option value="https://img1.teletype.in/files/4c/d6/4cd63323-468c-42c4-814a-06944f445ead.jpeg">Abdi Negara 14</option>
+<option value="https://img2.teletype.in/files/98/b1/98b1eb89-58b2-4b11-8b90-cf7633a4e31b.jpeg">Abdi Negara 15</option>
+<option value="https://img4.teletype.in/files/b0/ce/b0ce557b-2125-4673-b76e-2bd294ba072b.jpeg">Abdi Negara 16</option>
+
+        </select>
+            <p></p>
+
+            
+            <label for="photo2">Link Foto Wajah Anda  .png/.jpg/.jpeg:</label>
+            <input type="text" id="photo2" placeholder="Masukkan disini..." required>
+            
+            <button type="submit">Swap Wajah</button>
+            
+            <a href="https://uploader.nyxs.pw/" class="link" target="_blank">Ubah foto agar menjadi link? klik disini</a>
+        </form>
+
+        <div class="loading" id="loading">Loading, tunggu...</div>
+
+        <div id="result">
+            <h2>Hasil Swap Wajah:</h2>
+            <img id="resultImage" src="" alt="Hasil Swap Foto">
+        </div>
+    </div>
+
+    <script>
+        // Database sandi
+        const passwordDatabase = {
+            '00': 'SDAS-DFDS-GDSG-GDSG',
+            '01': 'HGJF-DASD-SFSD-FSDG',
+            '02': 'LKMN-PQRS-TUVW-XYZA',
+            '03': 'ZXCQ-WERT-YUIO-ASDF',
+            '04': 'GHJK-LMNB-VFRT-CXZV',
+            '05': 'QWERT-YUIO-PASD-FGHJ',
+            '06': 'PLMN-OKIJ-UHGF-REWS',
+            '07': 'QAZX-SWED-CVFR-TGBY',
+            '08': 'WERT-YUIK-HGFV-BNML',
+            '09': 'POIU-YTRE-WQAS-XCVB',
+            '10': 'ZQWE-RTYI-OPLK-JHGF',
+            '11': 'LKJI-OPMN-BVCX-ZASD',
+            '12': 'QWAS-DFGH-JKLO-PLMN',
+            '13': 'ZXCV-QWERT-YUIO-PASD',
+            '14': 'DFHG-KLJU-YTRE-BVCX',
+            '15': 'QWER-ASDF-GHJK-LMNB',
+            '16': 'POIU-YTRE-WQSD-XCVB',
+            '17': 'ABCD-EFGH-IJKL-MNOP',
+            '18': 'QWER-TYUI-OPAS-DFGH',
+            '19': 'LJKH-GFDX-CVBN-MZXC',
+            '20': 'QWAS-EDRF-TGBY-HJKL',
+            '21': 'PLMN-OKIJ-UHGF-VBNM',
+            '22': 'HJKL-POIU-YTRE-ASDF',
+            '23': 'QWXC-VBNM-ZXCV-LKJI',
+            '24': 'MNOP-QWER-TYUI-ASDF'
+        };
+
+        function getCurrentPassword() {
+            const now = new Date();
+            const gmtOffset = 8; // GMT+8
+            const currentHour = (now.getUTCHours() + gmtOffset) % 24;
+            return passwordDatabase[String(currentHour).padStart(2, '0')];
+        }
+
+        function checkPassword() {
+            const inputPassword = document.getElementById('passwordInput').value;
+            const currentPassword = getCurrentPassword();
+            const errorMessageElement = document.getElementById('errorMessage');
+
+            if (inputPassword === currentPassword) {
+                errorMessageElement.textContent = '';
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('swapContainer').style.display = 'block';
+            } else {
+                errorMessageElement.textContent = 'Sandi salah, silakan coba lagi.';
+            }
+        }
+
+        function getPassword() {
+            const phoneNumber = '6283830979232';
+            const message = 'sandiswapwajah';
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        // Load values from local storage on page load
+        window.onload = function() {
+            const savedPhoto1 = localStorage.getItem('photo1');
+            const savedPhoto2 = localStorage.getItem('photo2');
+
+            if (savedPhoto1) {
+                document.getElementById('photo1').value = savedPhoto1;
+            }
+
+            if (savedPhoto2) {
+                document.getElementById('photo2').value = savedPhoto2;
+            }
+        };
+
+        document.getElementById('swapForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const photo1 = document.getElementById('photo1').value;
+            const photo2 = document.getElementById('photo2').value;
+
+            // Save input values to local storage
+            localStorage.setItem('photo1', photo1);
+            localStorage.setItem('photo2', photo2);
+
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const resultImage = document.getElementById('resultImage');
+
+            loading.style.display = 'block';
+            result.style.display = 'none';
+            resultImage.src = ''; // Reset the image
+
+            const response = await fetch(`https://api.nyxs.pw/ai-image/face-swap?targetUrl=${encodeURIComponent(photo1)}&sourceUrl=${encodeURIComponent(photo2)}`);
+            const data = await response.json();
+
+            loading.style.display = 'none';
+
+            if (data.status) {
+                resultImage.src = data.result;
+                result.style.display = 'block';
+            } else {
+                alert('Gagal Swap Wajah. Silakan cek link foto mungkin sudah terhapus, dikarnakan link expired');
+            }
+        });
+    </script>
+</body>
+</html>
